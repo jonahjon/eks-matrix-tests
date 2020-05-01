@@ -4,15 +4,15 @@ go 1.14
 
 require (
 	github.com/aws/aws-sdk-go v1.30.5
+	github.com/gardener/gardener v1.3.1
 	github.com/onsi/ginkgo v1.11.0
 	github.com/onsi/gomega v1.8.1
-	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550 // indirect
-	golang.org/x/net v0.0.0-20200226121028-0de0cce0169b // indirect
 	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
-	k8s.io/api v0.17.0
-	k8s.io/apimachinery v0.17.0
-	k8s.io/client-go v0.17.0
+	k8s.io/api v0.18.2
+	k8s.io/apimachinery v0.18.2
+	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
 	k8s.io/kubernetes v1.17.0
+	sigs.k8s.io/controller-runtime v0.6.0
 )
 
 replace (
@@ -41,4 +41,3 @@ replace (
 	k8s.io/sample-cli-plugin => k8s.io/sample-cli-plugin v0.17.0
 	k8s.io/sample-controller => k8s.io/sample-controller v0.17.0
 )
-

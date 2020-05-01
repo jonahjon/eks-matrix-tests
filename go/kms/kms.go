@@ -16,9 +16,21 @@ import (
 	"k8s.io/kubernetes/test/e2e/framework"
 )
 
-//The goals of this test is to verify when configured with KMS envoloped secrets
-//that we are able to reference secrets within pods, that have been encrypted/decrypted
-//https://aws.amazon.com/blogs/containers/using-eks-encryption-provider-support-for-defense-in-depth/
+/**
+	Overview
+		- Test the KMS Encryption of Secrets with KMS master key
+
+	Prerequisite
+		- EKS Cluster 1.15 with KMS encryption turned on
+
+	Test: Create kubernetes secrets, and configure those in the pod specs
+	- using EnvFrom
+	- using ValueFrom
+
+	Expected Output
+		- Kubernetes Secrets de-crypted into plaintext using KMS key provides the same value
+ **/
+
 var _ = ginkgo.Describe("[KMSsecrets]", func() {
 	var f *framework.Framework
 	f = framework.NewDefaultFramework("kms")
@@ -45,14 +57,13 @@ var _ = ginkgo.Describe("[KMSsecrets]", func() {
 		describeClusterOut, err := eksSvc.DescribeCluster(&eks.DescribeClusterInput{
 			Name: aws.String(cluster),
 		})
-		framework.ExpectNoError(err, "Describing cluster %v", cluster)
+		framework.ExpectNoError(err, "Describing cluster %v in namespace: %v", cluster, ns)
 		// Verify that kms is configured and the keyarn configured matches an active KMS key in the account
 		clusteroutput := *describeClusterOut.Cluster
 		for _, v := range clusteroutput.EncryptionConfig {
 			keyarn := listKmsKeysOrDie(f, sess, *v.Provider.KeyArn)
 			if keyarn == "" {
-				err = fmt.Errorf("No Cluster KMS encryption configured for cluster bailing tests %v in namespace %v", cluster, ns)
-				framework.ExpectNoError(err, "\n")
+				ginkgo.Skip(fmt.Sprintf("Skipping KMS test as no cluster KMS encryption configured for cluster: %v\n", cluster))
 			}
 			ginkgo.By(fmt.Sprintf("Found Active Encryption Key in Use: %v\n", keyarn))
 		}
