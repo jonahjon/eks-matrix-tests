@@ -24,4 +24,3 @@ badge sytnax is:
 Prow Setup
 - Spinup EKS Cluster
 - Make sure nodegroup has (Cloudformation priv)
-- 
