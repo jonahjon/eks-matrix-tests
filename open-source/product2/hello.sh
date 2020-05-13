@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "open-source/product2 test"
+echo "open-source/product2 test ssdfsd"
