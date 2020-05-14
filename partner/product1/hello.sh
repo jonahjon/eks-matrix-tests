@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "partner/product1 test"
+echo "partner/product1 test dfdf"
