@@ -4,4 +4,4 @@ printenv
 
 echo "done"
 
-echo "HERE THY CALL GITHUB"
+echo "sha pull test"
