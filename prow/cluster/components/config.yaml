@@ -1,0 +1,5 @@
+deck:
+  branding:
+    header_color: "#161E2D" # AWS Dark Squid Ink
+    logo: "/static/extensions/logo.svg"
+    favicon: "/static/extensions/favicon.png"
