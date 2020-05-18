@@ -4,4 +4,4 @@ printenv
 
 echo "done"
 
-echo "sha pull test"
+echo "sha pull test 2"
