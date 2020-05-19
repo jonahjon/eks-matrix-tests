@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "open-source/product1 testing trigger and reruns"
+echo "open-source/product1 testing trigger and rerun"
