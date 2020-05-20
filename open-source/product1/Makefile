@@ -1,4 +1,4 @@
-.PHONY: test-e2e
+.PHONY: test
 
 test:
 	cd ../../go; \
