@@ -1,5 +1,7 @@
 #!/bin/bash
 
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+
 kubectl create configmap plugins --from-file "./prow/cluster/components/plugins.yaml"
 kubectl create configmap config --from-file "./prow/cluster/components/config.yaml"
 kubectl create configmap job-config --from-file "./prow/jobs/config.yaml"
@@ -21,3 +23,19 @@ kubectl apply -f "./prow/cluster/components/10-prow_addons_ctrlmanager.yaml"
 kubectl apply -f "./prow/cluster/components/11-alb_ingress.yaml"
 kubectl apply -f "./prow/cluster/components/12-crier.yaml"
 
+
+ecs-cli configure \
+  --cluster yolo \
+  --default-launch-type EC2  \
+  --config-name yolo \
+  --region us-west-2
+
+
+ecs-cli up \
+  --capability-iam \
+  --size 2 \
+  --vpc vpc-0470143a7c277ae00 \
+  --cidr 192.168.0.0/16 \
+  --subnets subnet-09020bc85e58f9bbf, \
+  --instance-type t3.medium \
+  --cluster-config yolo

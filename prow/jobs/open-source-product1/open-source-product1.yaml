@@ -1,17 +1,19 @@
-pod_namespace: default
 presubmits:
+  jonahjon/eks-matrix-tests:
   - name: open-source-product1-1.14
     skip_report: false
     agent: kubernetes
     run_if_changed: '^open-source/product1/'
-    trigger: "retest" # Regexp
-    rerun_command: "retest"  # String
+    trigger: "retest open-source-product1" # Regexp
+    rerun_command: "retest open-source-product1-1.14"  # String
+    branches:
+      - ^master$
     spec:
       containers:
       - command:
         - wrap.py
         - wrap
-        - run.py test --kubernetes-version 1.14 --directory open-source/product2
+        - run.py test --kubernetes-version 1.14 --directory open-source/product1
           --test-command ./hello.sh; export EXIT_STATUS=$?;
         env:
         - name: AWS_DEFAULT_REGION
@@ -22,14 +24,36 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^open-source/product1/'
-    trigger: "retest" # Regexp
-    rerun_command: "retest"  # String
+    trigger: "retest open-source-product1" # Regexp
+    rerun_command: "retest open-source-product1-1.15"  # String
+    branches:
+      - ^master$
     spec:
       containers:
       - command:
         - wrap.py
         - wrap
         - run.py test --kubernetes-version 1.15 --directory open-source/product1
+          --test-command ./hello.sh; export EXIT_STATUS=$?;
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/sonobuoy-tester:latest
+        imagePullPolicy: Always
+  - name: open-source-product1-1.16
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^open-source/product1/'
+    trigger: "retest open-source-product1" # Regexp
+    rerun_command: "retest open-source-product1-1.16"  # String
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+        - wrap.py
+        - wrap
+        - run.py test --kubernetes-version 1.16 --directory open-source/product1
           --test-command ./hello.sh; export EXIT_STATUS=$?;
         env:
         - name: AWS_DEFAULT_REGION
