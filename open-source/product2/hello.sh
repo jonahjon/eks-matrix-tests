@@ -4,16 +4,8 @@
 
 echo $KUBECONFIG
 
-pwd
+cat $KUBECONFIG
 
-cd /data
+cd ../../go
 
-pwd
-
-ls -la
-
-cd eks-matrix-tests/go
-
-ls -la
-
-pwd
+go test -timeout=0 -v -ginkgo.v ./e2e_test.go
