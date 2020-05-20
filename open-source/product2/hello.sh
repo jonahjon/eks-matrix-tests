@@ -6,8 +6,14 @@ echo $KUBECONFIG
 
 pwd
 
+cd /data
+
+pwd
+
 ls -la
 
-cd ../../go
+cd eks-matrix-tests/go
 
 ls -la
+
+pwd
