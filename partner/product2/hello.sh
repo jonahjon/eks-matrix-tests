@@ -4,4 +4,4 @@ printenv
 
 echo "done"
 
-echo "sha pull test 5.1"
+echo "testing go job config uploader"
