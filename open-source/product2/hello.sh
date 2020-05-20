@@ -1,3 +1,13 @@
 #!/bin/bash
 
-echo "open-source/product2 test ssdfsd sd ad asas"
+#!/bin/bash
+
+echo $KUBECONFIG
+
+pwd
+
+ls -la
+
+cd ../../go
+
+ls -la

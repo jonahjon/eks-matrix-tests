@@ -1,11 +1,13 @@
-pod_namespace: default
 presubmits:
+  jonahjon/eks-matrix-tests:
   - name: partner-product1-1.14
     skip_report: false
     agent: kubernetes
     run_if_changed: '^partner/product1/'
-    trigger: "retest" # Regexp
-    rerun_command: "retest"  # String
+    trigger: "retest partner-product1" # Regexp
+    rerun_command: "retest partner-product1-1.14"  # String
+    branches:
+      - ^master$
     spec:
       containers:
       - command:
@@ -21,9 +23,10 @@ presubmits:
   - name: partner-product1-1.15
     skip_report: false
     agent: kubernetes
-    run_if_changed: '^partner/product1/'
-    trigger: "retest" # Regexp
-    rerun_command: "retest"  # String
+    trigger: "retest partner-product1" # Regexp
+    rerun_command: "retest partner-product1-1.15"  # String
+    branches:
+      - ^master$
     spec:
       containers:
       - command:
