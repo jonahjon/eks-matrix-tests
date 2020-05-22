@@ -57,9 +57,3 @@ func GetAWSRegionOrDie() string {
 	fmt.Printf("using AWS region: %v", region)
 	return region
 }
-
-//     // Specify profile for config and region for requests
-//     sess := session.Must(session.NewSessionWithOptions(session.Options{
-//          Config: aws.Config{Region: aws.String("us-east-1")},
-//          Profile: "profile_name",
-//     }))
