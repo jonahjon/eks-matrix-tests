@@ -2,6 +2,4 @@
 
 echo $KUBECONFIG
 
-pwd
-
-echo "success"
+make test

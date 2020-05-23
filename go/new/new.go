@@ -25,8 +25,8 @@ var _ = ginkgo.Describe("[NEWtest]", func() {
 		eksSvc  *eks.EKS
 	)
 	ginkgo.BeforeEach(func() {
+		ginkgo.By(fmt.Sprintf("tesintg new cluster"))
 		ns = f.Namespace.Name
-
 		//Get Clustername and Region from current context
 		cluster = util.GetClusterNameOrDie()
 		region = util.GetAWSRegionOrDie()
@@ -35,7 +35,11 @@ var _ = ginkgo.Describe("[NEWtest]", func() {
 		}))
 
 		eksSvc = eks.New(sess)
-		ginkgo.By(fmt.Sprintf("session: %v \n", eksSvc))
+		describeClusterOut, err := eksSvc.DescribeCluster(&eks.DescribeClusterInput{
+			Name: aws.String(cluster),
+		})
+		framework.ExpectNoError(err, "Describing cluster %v in namespace: %v", cluster, ns)
+		ginkgo.By(fmt.Sprintf("cluster output: %v", describeClusterOut))
 	})
 	ginkgo.AfterEach(func() {
 		ginkgo.By(fmt.Sprintf("Cleaning up new test stuff"))
