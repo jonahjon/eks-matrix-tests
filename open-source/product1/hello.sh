@@ -1,5 +1,5 @@
 #!/bin/bash
 
+echo "testing"
 echo $KUBECONFIG
 
-make test
