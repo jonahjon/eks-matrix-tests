@@ -17,12 +17,11 @@ import (
 	_ "k8s.io/kubernetes/test/e2e/framework/providers/aws"
 
 	// test sources
-	_ "github.com/jonahjon/eks-matrix-tests/cni"
+	// _ "github.com/jonahjon/eks-matrix-tests/cni"
 	_ "github.com/jonahjon/eks-matrix-tests/iam"
-
 	// _ "github.com/jonahjon/eks-matrix-tests/kms"
 	// _ "github.com/jonahjon/eks-matrix-tests/logging"
-	_ "github.com/jonahjon/eks-matrix-tests/new"
+	// _ "github.com/jonahjon/eks-matrix-tests/new"
 )
 
 func TestMain(m *testing.M) {
