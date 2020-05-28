@@ -1,13 +1,4 @@
 #!/bin/bash
 
-#!/bin/bash
-
+echo "testing"
 echo $KUBECONFIG
-
-pwd
-
-ls -la
-
-cd ../../go
-
-ls -la
