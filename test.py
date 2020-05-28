@@ -33,18 +33,20 @@ def test(focus='',
       kubeconfig: Path to kubeconfig. Defaults to "$KUBECONFIG" or
         "$HOME/.kube/config".
     """
+    if not cluster_name:
+        cluster_name = guess_cluster_name(kubeconfig)
     args = 'ginkgo -p'.split()
     if focus:
-      args.append(f'-focus={focus}')
+        args.append(f'-focus={focus}')
     if skip:
-      args.append(f'-skip={skip}')
+        args.append(f'-skip={skip}')
     if parallelism:
-      args.append(f'-nodes={parallelism}')
+        args.append(f'-nodes={parallelism}')
     args.append('./')
     args.append('--')
     if kubeconfig:
         args.append(f'-kubeconfig={kubeconfig}')
-        
+
     print(' '.join(args))
 
     process = subprocess.run(
@@ -54,7 +56,10 @@ def test(focus='',
         # aws-sdk-go expects AWS_REGION
         env={**os.environ, 'AWS_REGION': region},
     )
-
+    if process.returncode != 0:
+        return 1
+    else:
+        return 0
 
 def guess_cluster_name(kubeconfig) -> str:
     try:
