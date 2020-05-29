@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo $KUBECONFIG
-echo "testme"
+echo "testme failure"
 
