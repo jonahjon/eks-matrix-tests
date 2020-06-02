@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo $KUBECONFIG
+echo "test helm"
 echo "testme"
 
