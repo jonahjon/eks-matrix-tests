@@ -12,11 +12,12 @@ This image consists of:
 - base64
 - kubectl (1.18)
 - helm (3.2.1)
+- aws-iam-authenticator
 
 ## Installation
 
 To build the Docker image, run this command:
 
 ```bash
-docker build -t alpine-kubectl .
+docker build -t grafana/alpine-kubectl .
 ```
