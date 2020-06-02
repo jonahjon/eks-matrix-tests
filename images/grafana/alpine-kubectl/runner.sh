@@ -5,6 +5,20 @@ DISABLE_MD_LINTING=1
 DISABLE_MD_LINK_CHECK=1
 export GO111MODULE=on
 
+export KUBECONFIG=1_15_cluster.config
+
+kubectl get pods
+
+echo "******************************************************"
+echo "adding helm chart repo"
+echo "******************************************************"
+
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+helm repo update 
+
+helm version 
+
 echo "******************************************************"
 echo "installing helm chart"
 echo "******************************************************"
@@ -15,18 +29,12 @@ echo "******************************************************"
 echo "checking logs"
 echo "******************************************************"
 
-k logs -l app.kubernetes.io/instance=grafana
+kubectl logs -l app.kubernetes.io/instance=grafana
 
-k get pod -l app.kubernetes.io/instance=grafana --field-selector=status.phase!=Running
+kubectl get pod -l app.kubernetes.io/instance=grafana --field-selector=status.phase!=Running
 
 echo "******************************************************"
-echo "deleting logs"
+echo "deleting helm charts"
 echo "******************************************************"
 
-helm delete grafana --timeout duration 10m0s
-
-
-
-[Service]
-Environment="AWS_ACCESS_KEY_ID=AKIASMRP2L3QI5PZQPOJ"
-Environment="AWS_SECRET_ACCESS_KEY=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"
+helm delete grafana --timeout 10m0s

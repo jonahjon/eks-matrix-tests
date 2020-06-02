@@ -37,5 +37,11 @@ RUN curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID"
 
 ENV DOCKER_VERSION=18.06.1*
 
+COPY data/1_14_cluster.config 1_14_cluster.config
+COPY data/1_15_cluster.config 1_15_cluster.config
+COPY data/1_16_cluster.config 1_16_cluster.config
+
+COPY tmp/aws-iam-authenticator /bin/aws-iam-authenticator
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends docker-ce=${DOCKER_VERSION}
