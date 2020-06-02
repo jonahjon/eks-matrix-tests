@@ -12,6 +12,7 @@ This image consists of:
 - base64
 - kubectl (1.18)
 - helm (3.2.1)
+- aws-iam-authenticator
 
 ## Installation
 
