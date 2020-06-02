@@ -21,3 +21,4 @@ To build the Docker image, run this command:
 ```bash
 docker build -t grafana/alpine-kubectl .
 ```
+test
