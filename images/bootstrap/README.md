@@ -15,6 +15,7 @@ The image consists of:
 - python
 - shellcheck
 - wget
+- aws-iam-authenticator
 
 ## Installation
 
