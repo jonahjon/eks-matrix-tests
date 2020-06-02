@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo "test helm"
-echo "testme"
+echo "testme helm"
 
