@@ -1,0 +1,28 @@
+---
+triggers:
+- repos:
+  - jonahjon/eks-matrix-tests
+
+config_updater:
+  maps:
+    prow/cluster/components/config_all.yaml:
+      name: config
+    prow/cluster/components/plugins.yaml:
+      name: plugins
+    prow/jobs/config.yaml:
+      name: job-config
+
+plugins:
+  jonahjon:
+    - approve
+    - lgtm
+    - skip
+    - size
+    - welcome
+    - owners-label
+    - label
+    - approve
+    - trigger
+
+  jonahjon/eks-matrix-tests:
+    - cat

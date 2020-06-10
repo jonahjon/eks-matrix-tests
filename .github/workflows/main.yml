@@ -1,0 +1,24 @@
+name: Push Bootstrap ECR image with cluster access
+on:
+  push:
+    branches:
+    - master
+    # paths:
+    # - 'images/bootstrap/**'
+
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu:latest	
+    steps:
+      - uses: mr-smithers-excellent/docker-build-push@v3    
+        with:
+          image: bootstrap
+          tag: latest
+          registry: 164382793440.dkr.ecr.us-west-2.amazonaws.com
+          dockerfile: Dockerfile
+          directory: images/bootstrap
+          buildArgs: EKS114_KUBE_CONFIG=${{ secrets.EKS114_KUBE_CONFIG }}, EKS115_KUBE_CONFIG=${{ secrets.EKS115_KUBE_CONFIG }}, EKS116_KUBE_CONFIG=${{ secrets.EKS116_KUBE_CONFIG }}, PROW_KUBE_CONFIG=${{ secrets.PROW_KUBE_CONFIG }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

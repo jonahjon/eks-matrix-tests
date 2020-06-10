@@ -1,0 +1,59 @@
+presubmits:
+  jonahjon/eks-matrix-tests:
+  - name: prometheus1-1.14
+    cluster: eks-114
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^images/prometheus/'
+    trigger: "retest prometheus" # Regexp
+    rerun_command: "retest prometheus"  # String
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+        - usr/local/bin/runner.sh 
+        - "1_14"
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/prometheus/alpine-kubectl
+        imagePullPolicy: Always
+  - name: prometheus1-1.15
+    cluster: eks-115
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^images/prometheus/'
+    trigger: "retest prometheus" # Regexp
+    rerun_command: "retest prometheus"  # String
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+        - usr/local/bin/runner.sh 
+        - "1_15"
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/prometheus/alpine-kubectl
+        imagePullPolicy: Always
+  - name: prometheus1-1.16
+    cluster: eks-116
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^images/prometheus/'
+    trigger: "retest prometheus" # Regexp
+    rerun_command: "retest prometheus"  # String
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+        - usr/local/bin/runner.sh 
+        - "1_16"
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/prometheus/alpine-kubectl
+        imagePullPolicy: Always

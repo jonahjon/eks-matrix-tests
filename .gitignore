@@ -1,0 +1,6 @@
+/prow/cluster/components/bot_hmac
+/prow/cluster/components/bot_oauth
+/prow/jobs/vendor/
+/bootstrap/data
+/prow/jobs/test-infra/
+/images/bootstrap/data
