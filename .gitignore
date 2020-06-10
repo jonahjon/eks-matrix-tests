@@ -4,3 +4,4 @@
 /bootstrap/data
 /prow/jobs/test-infra/
 /images/bootstrap/data
+/images/github-runner/Dockerfile
