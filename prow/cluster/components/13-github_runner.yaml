@@ -17,3 +17,4 @@ spec:
       containers:
       - name: github-runner
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/github-runner:latest
+        imagePullPolicy: Always
