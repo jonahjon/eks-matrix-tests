@@ -10,6 +10,7 @@ The [architecture diagram](static/architecture.png) provides an overview of how 
 
 For onboarding 3rd party software onto Aquarium there a minimum of two steps needed to be completed. 
 
+- [Create a folder and OWNER file](/prow/jobs/README.md#adding-or-updating-jobs)
 - [Add or update job definition](/prow/jobs/README.md#adding-or-updating-jobs)
 - [Add or update tests](/images/README.md#adding-or-updating-tests)
 
