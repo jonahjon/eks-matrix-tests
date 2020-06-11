@@ -24,3 +24,9 @@ plank:
       gcs_configuration:
         bucket: s3://aquarium-eks-logs
         path_strategy: "explicit"
+presets:
+- labels:
+    preset-dind-enabled: "true"
+  env:
+  - name: DOCKER_IN_DOCKER_ENABLED
+    value: "true"

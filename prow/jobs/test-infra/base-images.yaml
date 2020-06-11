@@ -1,0 +1,28 @@
+presubmits:
+  jonahjon/eks-matrix-tests:
+  - name: test-infra-golang
+    preset-dind-enabled: "true"
+    decorate: true
+    cluster: prow
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^prow/images/golang'
+    branches:
+      - ^master$
+    spec:
+      containers:
+        securityContext:
+          privileged: true
+        command:
+          - "sleep"
+        args:
+          - "3600"
+        # command:
+        #   - "/home/prow/go/src/github.com/eks-matrix-tests/test-infra/prow/scripts/publish-buildpack.sh"
+        # args:
+        #   - "/home/prow/go/src/github.com/kyma-project/test-infra/prow/images/bootstrap"
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap
+        imagePullPolicy: Always

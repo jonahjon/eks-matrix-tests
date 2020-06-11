@@ -1,4 +1,5 @@
 #!/bin/sh
+
 registration_url="https://github.com/${GITHUB_OWNER}"
 if [ -z "${GITHUB_REPOSITORY}" ]; then
     token_url="https://api.github.com/orgs/${GITHUB_OWNER}/actions/runners/registration-token"
@@ -8,6 +9,10 @@ else
 fi
 
 echo "Requesting token at '${token_url}'"
+
+sudo groupadd docker
+sudo gpasswd -a ${USER} docker
+sudo service docker restart
 
 payload=$(curl -sX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url})
 export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
