@@ -10,3 +10,10 @@ aws ecr create-repository --repository-name prow/update-jobs || true
 aws ecr create-repository --repository-name grafana/alpine-kubectl || true
 aws ecr create-repository --repository-name github-runner || true
 
+
+aws ecr create-repository --repository-name voting-app/vote
+aws ecr create-repository --repository-name voting-app/worker
+aws ecr create-repository --repository-name voting-app/results
+
+
+

@@ -11,5 +11,8 @@ local-test-e2e:
 update-config:
 	kubectl create configmap config --from-file=config.yaml=prow/cluster/components/config.yaml --dry-run -o yaml | kubectl replace configmap config -f -
 
+update-clusters:
+	kubectl create secret generic kubeconfig --from-file=config=./prow/cluster/components/workload_clusters.yaml --dry-run -o yaml | kubectl replace secret kubeconfig -f -
+
 update-jobs:
 	go run prow/jobs/main.go --kubeconfig $$HOME/.kube/config --jobs-config-path prow/jobs/
