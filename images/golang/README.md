@@ -9,12 +9,15 @@ The image consists of:
 - golang 1.14.2
 - dep 0.5.4
 
+```dkr.ecr.us-west-2.amazonaws.com/golang/go1.14```
+
 or 
 
 - golang 1.13.11
 - dep 0.5.4
 
-if you use tag ```go1.13```
+```dkr.ecr.us-west-2.amazonaws.com/golang/go1.13```
+
 
 ## Installation
 

@@ -25,11 +25,12 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: deck
-          image: gcr.io/k8s-prow/deck:v20200319-1aea24112
+          image: gcr.io/k8s-prow/deck:v20200610-6c96a0a6ed
           args:
             - --hook-url=http://hook:8888/hook
             - --config-path=/etc/config/config.yaml
             - --job-config-path=/etc/job-config
+            - --kubeconfig=/etc/kubeconfig/config
             - --plugin-config=/etc/plugins/plugins.yaml
             - --github-endpoint=http://ghproxy
             - --github-endpoint=https://api.github.com
@@ -53,6 +54,9 @@ spec:
             - name: branding
               mountPath: /static/extensions
               readOnly: true
+            - name: kubeconfig
+              mountPath: /etc/kubeconfig
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /healthz
@@ -67,6 +71,10 @@ spec:
             periodSeconds: 3
             timeoutSeconds: 600
       volumes:
+        - name: kubeconfig
+          secret:
+            defaultMode: 0644
+            secretName: kubeconfig
         - name: config
           configMap:
             name: config
@@ -123,3 +131,20 @@ rules:
       - get
       - list
       - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: prow-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:serviceaccounts
