@@ -35,5 +35,5 @@ users:
 - export CONTEXT=$(kubectl config current-context)
 - git clone https://github.com/kubernetes/test-infra
 - cd test-infra/gencred
-- go run k8s.io/test-infra/gencred --context $CONTEXT --name eks-114 --output ../../prow/cluster/components/workload_clusters.yaml --serviceaccount
+- bazel build //gencred --context $CONTEXT --name eks-114 --output ../../prow/cluster/components/workload_clusters.yaml --serviceaccount
 
