@@ -22,3 +22,12 @@ kubectl apply -f "./prow/cluster/components/09-pushgateway.yaml"
 kubectl apply -f "./prow/cluster/components/10-prow_addons_ctrlmanager.yaml"
 kubectl apply -f "./prow/cluster/components/11-alb_ingress.yaml"
 kubectl apply -f "./prow/cluster/components/12-crier.yaml"
+
+
+# Create Service Account for Plank Decoration
+eksctl create iamserviceaccount \
+                --name sa-s3-plank \
+                --namespace default \
+                --cluster prow \
+                --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess \
+                --approve
