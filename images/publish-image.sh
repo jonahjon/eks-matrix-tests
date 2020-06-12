@@ -34,7 +34,7 @@ function start_docker() {
 
 start_docker
 
-export $(aws ecr get-login-password --region us-west-2) 
+export $(aws ecr get-login --no-include-email --region us-west-2) 
 
 readonly SOURCES_DIR=$1
 
