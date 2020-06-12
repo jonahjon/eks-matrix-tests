@@ -23,7 +23,6 @@ function export_variables() {
     export DOCKER_TAG
 }
 
-init
 export_variables
 
 if [[ "${BUILD_TYPE}" == "pr" ]]; then
