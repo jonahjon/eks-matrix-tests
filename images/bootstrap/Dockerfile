@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     software-properties-common \
     lsb-release \
     gettext \
+    awscli \
     && apt-get clean
 
 ENV KUBECTL_VERSION="v1.18.2"

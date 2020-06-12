@@ -31,3 +31,6 @@ eksctl create iamserviceaccount \
                 --cluster prow \
                 --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess \
                 --approve
+
+
+kubectl create secret generic sa-s3-plank --from-file=service-account.json=./prow/cluster/components/service-account.json --dry-run -o yaml | kubectl replace secret sa-s3-plank -f -

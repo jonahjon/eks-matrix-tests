@@ -3,18 +3,28 @@ deck:
     header_color: "#161E2D" # AWS Dark Squid Ink
     logo: "/static/extensions/logo.svg"
     favicon: "/static/extensions/favicon.png"
-
+  spyglass:
+    size_limit: 500000000 # 500MB
+    lenses:
+      - lens:
+          name: metadata
+        required_files:
+          - started.json|finished.json
+      - lens:
+          name: buildlog
+        required_files:
+          - build-log.txt
 
 plank:
-  job_url_template: 'http://a69660e52137f4cbcaefaf44e7c02ebb-1275564336.us-west-2.elb.amazonaws.com/view/gcs/aquarium-eks-logs/{{if eq .Spec.Type "presubmit"}}pr-logs/pull{{else if eq .Spec.Type "batch"}}pr-logs/pull{{else}}logs{{end}}{{if .Spec.Refs}}{{if ne .Spec.Refs.Org ""}}/{{.Spec.Refs.Org}}_{{.Spec.Refs.Repo}}{{end}}{{end}}{{if eq .Spec.Type "presubmit"}}/{{with index .Spec.Refs.Pulls 0}}{{.Number}}{{end}}{{else if eq .Spec.Type "batch"}}/batch{{end}}/{{.Spec.Job}}/{{.Status.BuildID}}/'
+  job_url_template: 'http://a69660e52137f4cbcaefaf44e7c02ebb-1275564336.us-west-2.elb.amazonaws.com/view/aquarium-eks-logs/{{if eq .Spec.Type "presubmit"}}pr-logs/pull{{else if eq .Spec.Type "batch"}}pr-logs/pull{{else}}logs{{end}}{{if .Spec.Refs}}{{if ne .Spec.Refs.Org ""}}/{{.Spec.Refs.Org}}_{{.Spec.Refs.Repo}}{{end}}{{end}}{{if eq .Spec.Type "presubmit"}}/{{with index .Spec.Refs.Pulls 0}}{{.Number}}{{end}}{{else if eq .Spec.Type "batch"}}/batch{{end}}/{{.Spec.Job}}/{{.Status.BuildID}}/'
   job_url_prefix_config:
-    '*': http://a69660e52137f4cbcaefaf44e7c02ebb-1275564336.us-west-2.elb.amazonaws.com/view/gcs/
+    '*': http://a69660e52137f4cbcaefaf44e7c02ebb-1275564336.us-west-2.elb.amazonaws.com/view/
   allow_cancellations: true # AllowCancellations enables aborting presubmit jobs for commits that have been superseded by newer commits in Github pull requests.
   max_concurrency: 100 # Limit of concurrent ProwJobs. Need to be adjusted depending of the cluster size.
   pod_pending_timeout: 60m
   default_decoration_configs:
     '*':
-      timeout: 2h
+      timeout: 1h
       grace_period: 10m
       utility_images:
         clonerefs: "gcr.io/k8s-prow/clonerefs:v20200609-2d17640dc1"
@@ -24,7 +34,7 @@ plank:
       gcs_configuration:
         bucket: s3://aquarium-eks-logs
         path_strategy: "explicit"
-      s3_credentials_secret: "sa-s3-plank" # Service account with "Object Admin" role
+      s3_credentials_secret: "sa-s3-plank" # Service account Secret with "S3 access" IAM role
 
 
 presets:

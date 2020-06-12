@@ -15,5 +15,6 @@ aws-iam:
 build-image:
 	docker build -t $(IMG_NAME) .
 push-image:
+	export $$(aws ecr get-login-password --region us-west-2)
 	docker tag $(IMG_NAME) $(IMAGE):$(TAG)
 	docker push $(IMAGE):$(TAG)
