@@ -1,5 +1,3 @@
-![Push Bootstrap ECR image with cluster access](https://github.com/jonahjon/eks-matrix-tests/workflows/Push%20Bootstrap%20ECR%20image%20with%20cluster%20access/badge.svg?branch=master)
-
 ## Aquarium K8s Test Coverage
 
 This repository contains tools and configuration files for the testing 3rd party software on various versions of Amazon EKS.
