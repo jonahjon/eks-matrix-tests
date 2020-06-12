@@ -13,7 +13,6 @@ if [[ -z "${SOURCES_DIR}" ]]; then
     usage
 fi
 
-
-DOCKER_TAG="PR-${PULL_NUMBER}"
+echo "using ${SOURCES_DIR} to build the image"
 
 make -C "${SOURCES_DIR}" ci-release
