@@ -1,5 +1,6 @@
 /prow/cluster/components/bot_hmac
 /prow/cluster/components/bot_oauth
+/prow/cluster/components/service-account.json
 /prow/cluster/components/workload_clusters.yaml
 /prow/jobs/vendor/
 /bootstrap/data

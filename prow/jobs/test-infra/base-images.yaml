@@ -2,6 +2,7 @@ presubmits:
   jonahjon/eks-matrix-tests:
   - name: test-infra-golang
     decorate: true
+    path_alias: github.com/jonahjon/eks-matrix-tests
     cluster: prow
     skip_report: false
     agent: kubernetes
@@ -15,7 +16,7 @@ presubmits:
       - command:
           - "sleep"
         args:
-          - "3600"
+          - "600"
         env:
         - name: AWS_DEFAULT_REGION
           value: us-west-2
