@@ -14,9 +14,9 @@ presubmits:
     spec:
       containers:
       - command:
-          - "sleep"
+          - "/home/prow/go/src/github.com/jonahjon/eks-matrix-tests/images/publish-image.sh"
         args:
-          - "600"
+          - "/home/prow/go/src/github.com/jonahjon/eks-matrix-tests/images/golang"
         env:
         - name: AWS_DEFAULT_REGION
           value: us-west-2
