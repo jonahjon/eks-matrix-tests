@@ -2,10 +2,6 @@
 
 set -e
 
-readonly SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# shellcheck disable=SC1090
-source "${SCRIPT_DIR}/library.sh"
-
 usage () {
     echo "Usage: \$ ${BASH_SOURCE[1]} /path/to/image"
     exit 1
