@@ -23,6 +23,7 @@ spec:
           args:
             - --config-path=/etc/config/config.yaml
             - --job-config-path=/etc/job-config
+            - --kubeconfig=/etc/kubeconfig/config
             - --dry-run=false
           volumeMounts:
             - name: config
@@ -31,7 +32,14 @@ spec:
             - name: job-config
               mountPath: /etc/job-config
               readOnly: true
+            - name: kubeconfig
+              mountPath: /etc/kubeconfig
+              readOnly: true
       volumes:
+        - name: kubeconfig
+          secret:
+            defaultMode: 0644
+            secretName: kubeconfig
         - name: config
           configMap:
             name: config
