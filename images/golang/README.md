@@ -27,4 +27,4 @@ To build the Docker image, run this command:
 docker build -t eks-matrix/golang .
 ```
 
-testing image building 2
+testing image building 3 
