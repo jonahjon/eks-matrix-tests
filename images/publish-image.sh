@@ -34,8 +34,12 @@ function start_docker() {
 
 start_docker
 
-login=$(aws ecr get-login --region us-west-2)
-export login
+echo "Logging into aws ECR"
+aws ecr get-login --region us-west-2
+# login=$(aws ecr get-login --region us-west-2)
+# # export login
+# # echo "$login"
+
 
 readonly SOURCES_DIR=$1
 
