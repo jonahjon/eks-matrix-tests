@@ -38,6 +38,10 @@ echo "aws ecr get-login --region us-west-2"
 
 aws ecr get-login --region us-west-2
 
+aws ecr help
+
+sleep 10
+
 readonly SOURCES_DIR=$1
 
 if [[ -z "${SOURCES_DIR}" ]]; then
