@@ -34,7 +34,7 @@ function start_docker() {
 
 start_docker
 
-echo "Logging into aws ECR"
+echo "aws ecr get-login --region us-west-2"
 
 aws ecr get-login --region us-west-2
 
