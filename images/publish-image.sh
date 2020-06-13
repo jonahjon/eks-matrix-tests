@@ -36,12 +36,9 @@ start_docker
 
 echo "Logging into aws ECR"
 
-#aws ecr get-login --region us-west-2
+sleep 600
 
-eval "$( \
-    /usr/bin/aws ecr get-login \
-        --region us-west-2 \
-)"
+aws ecr get-login --region us-west-2
 
 # login=$(aws ecr get-login --region us-west-2)
 # # export login
