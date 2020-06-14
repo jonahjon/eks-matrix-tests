@@ -40,7 +40,7 @@ aws ecr get-login-password --region us-west-2
 
 aws ecr help
 
-sleep 5
+sleep 300
 
 readonly SOURCES_DIR=$1
 
