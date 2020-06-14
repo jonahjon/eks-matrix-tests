@@ -34,13 +34,13 @@ function start_docker() {
 
 start_docker
 
-echo "aws ecr get-login --region us-west-2"
+echo "aws ecr get-login-password --region us-west-2"
 
-aws ecr get-login --region us-west-2
+aws ecr get-login-password --region us-west-2
 
 aws ecr help
 
-sleep 10
+sleep 5
 
 readonly SOURCES_DIR=$1
 
