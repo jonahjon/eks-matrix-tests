@@ -13,12 +13,10 @@ ci-release-13: build-image-13 push-image-13
 build-image:
 	docker build -t $(IMG_NAME) .
 push-image:
-	export $$(aws ecr get-login-password --region us-west-2)
 	docker tag $(IMG_NAME) $(IMAGE):$(TAG)
 	docker push $(IMAGE):$(TAG)
 build-image-13:
 	docker build -f Dockerfile-13 -t $(IMG_NAME) .
 push-image-13:
-	export $$(aws ecr get-login-password --region us-west-2)
 	docker tag $(IMG_NAME) $(IMAGE):$(TAG_13)
 	docker push $(IMAGE):$(TAG_13)
