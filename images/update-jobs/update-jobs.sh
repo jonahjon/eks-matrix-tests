@@ -5,9 +5,6 @@ set -o errexit
 DISABLE_MD_LINTING=1
 DISABLE_MD_LINK_CHECK=1
 export GO111MODULE=off
-export GOPATH="/workspace"
-
-go get -u github.com/golang/dep/cmd/dep
 
 #in the prowjob  /usr/local/bin/runner.sh (1_14 | 1_15 | 1_16)
 export KUBECONFIG=/workspace/"$@".config
@@ -21,13 +18,18 @@ echo "******************************************************"
 # decorate: true 
 # path_alias: github.com/jonahjon/eks-matrix-tests
 # Will pull in the PR git HASH into the image via the Initupload Sidecar
-cd /home/prow/go/src/github.com/jonahjon/eks-matrix-tests
+
+export GOPATH="/home/prow/go"
+
+cd /home/prow/go/src/github.com/jonahjon/eks-matrix-tests/prow/jobs
+
+go get -u github.com/golang/dep/cmd/dep
 
 echo "******************************************************"
 echo "Updating Go Dep and running job update"
 echo "******************************************************"
 
-dep ensure -v
+dep ensure
 
 go run main.go --kubeconfig $KUBECONFIG --jobs-config-path .
 
