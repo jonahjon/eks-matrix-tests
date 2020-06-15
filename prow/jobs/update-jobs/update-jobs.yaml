@@ -12,7 +12,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - /usr/local/bin/update-jobs.sh
+        - /workspace/update-jobs.sh
         - "prow"
         env:
         - name: AWS_DEFAULT_REGION
