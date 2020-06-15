@@ -24,6 +24,7 @@ spec:
             - --config-path=/etc/config/config.yaml
             - --job-config-path=/etc/job-config
             - --kubeconfig=/etc/kubeconfig/config
+            # - --run-once=true
             - --dry-run=false
           volumeMounts:
             - name: config

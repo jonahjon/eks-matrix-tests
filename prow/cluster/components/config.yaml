@@ -36,6 +36,11 @@ plank:
         path_strategy: "explicit"
       s3_credentials_secret: "sa-s3-plank" # Service account Secret with "S3 access" IAM role
 
+sinker:
+  resync_period: 1m
+  max_prowjob_age: 24h
+  max_pod_age: 24h
+  terminated_pod_ttl: 15m
 
 presets:
 - labels:
