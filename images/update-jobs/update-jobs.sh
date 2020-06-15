@@ -32,7 +32,7 @@ dep ensure -v
 go run main.go --kubeconfig $KUBECONFIG --jobs-config-path .
 
 echo "******************************************************"
-echo "Updated jobs"
+echo "Updated-jobs image"
 echo "******************************************************"
 
 exit 0
