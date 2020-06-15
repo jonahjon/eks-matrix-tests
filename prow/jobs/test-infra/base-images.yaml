@@ -22,6 +22,11 @@ presubmits:
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 1.5Gi
+            cpu: 0.8
+            ephemeral-storage: "2Gi"
         securityContext:
           privileged: true
   - name: test-infra-bootstrap-helm
@@ -46,6 +51,11 @@ presubmits:
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 1.5Gi
+            cpu: 0.8
+            ephemeral-storage: "2Gi"
         securityContext:
           privileged: true
   - name: test-infra-golang
@@ -70,6 +80,11 @@ presubmits:
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 1.5Gi
+            cpu: 0.8
+            ephemeral-storage: "2Gi"
         securityContext:
           privileged: true
   - name: test-infra-alpine-kubectl
@@ -94,6 +109,11 @@ presubmits:
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 1.5Gi
+            cpu: 0.8
+            ephemeral-storage: "2Gi"
         securityContext:
           privileged: true
   - name: test-infra-update-jobs
@@ -118,5 +138,10 @@ presubmits:
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 1.5Gi
+            cpu: 0.8
+            ephemeral-storage: "2Gi"
         securityContext:
           privileged: true

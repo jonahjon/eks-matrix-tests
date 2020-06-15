@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gettext \
     awscli \
     groff \
-    zip \
+    unzip \
     && apt-get clean
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
@@ -61,4 +61,10 @@ ENV PROW_KUBE_CONFIG=$PROW_KUBE_CONFIG
 COPY tmp/aws-iam-authenticator /bin/aws-iam-authenticator
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends docker-ce=${DOCKER_VERSION}
+    apt-get install -y --no-install-recommends docker-ce=${DOCKER_VERSION} && \
+    sed -i 's/cgroupfs_mount$/#cgroupfs_mount\n/' /etc/init.d/docker
+
+# Move Docker's storage location
+RUN echo 'DOCKER_OPTS="${DOCKER_OPTS} --data-root=/docker-graph"' | \
+    tee --append /etc/default/docker
+RUN mkdir /docker-graph
