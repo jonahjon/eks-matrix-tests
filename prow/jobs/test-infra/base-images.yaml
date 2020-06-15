@@ -7,7 +7,6 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/bootstrap/'
-    rerun_command: "retest test-infra-bootstrap"  # String
     branches:
       - ^master$
     spec:
@@ -35,7 +34,6 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/bootstrap-helm/'
-    rerun_command: "retest test-infra-bootstrap-helm"  # String
     branches:
       - ^master$
     spec:
@@ -63,7 +61,6 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/golang/'
-    rerun_command: "retest test-infra-golang"  # String
     branches:
       - ^master$
     spec:
@@ -91,7 +88,6 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/alpine-kubectl/'
-    rerun_command: "retest test-infra-alpine-kubectl"  # String
     branches:
       - ^master$
     spec:
@@ -119,7 +115,6 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/update-jobs/'
-    rerun_command: "retest test-infra-update-jobs"  # String
     branches:
       - ^master$
     spec:

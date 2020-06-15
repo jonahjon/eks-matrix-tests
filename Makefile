@@ -23,6 +23,9 @@ reload-components:
 update-config:
 	kubectl create configmap config --from-file=config.yaml=prow/cluster/components/config.yaml --dry-run -o yaml | kubectl replace configmap config -f -
 
+update-plugins:
+	kubectl create configmap plugins --from-file=config.yaml=prow/cluster/components/plugins.yaml --dry-run -o yaml | kubectl replace configmap plugins -f -
+
 update-clusters:
 	kubectl create secret generic kubeconfig --from-file=config=./prow/cluster/components/workload_clusters.yaml --dry-run -o yaml | kubectl replace secret kubeconfig -f -
 

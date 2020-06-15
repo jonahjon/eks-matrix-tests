@@ -7,7 +7,6 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^prow/jobs/'
-    rerun_command: "retest update-jobs"  # String
     branches:
       - ^master$
     spec:

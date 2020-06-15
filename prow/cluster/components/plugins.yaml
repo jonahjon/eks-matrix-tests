@@ -9,7 +9,7 @@ config_updater:
       name: config
     prow/cluster/components/plugins.yaml:
       name: plugins
-    prow/jobs/config.yaml:
+    prow/jobs/**/*.yaml:
       name: job-config
 
 plugins:
