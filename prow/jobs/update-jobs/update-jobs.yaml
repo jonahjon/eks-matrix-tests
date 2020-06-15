@@ -12,7 +12,8 @@ presubmits:
     spec:
       containers:
       - command:
-        - pwd
+        - /usr/local/bin/update-jobs.sh
+        - "prow"
         env:
         - name: AWS_DEFAULT_REGION
           value: us-west-2
