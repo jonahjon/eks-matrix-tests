@@ -26,15 +26,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     && apt-get clean
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-    && unzip awscliv2.zip \
+RUN curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip -qq awscliv2.zip \
     && ./aws/install \
     && rm awscliv2.zip \
     && rm -R aws
 
 ENV KUBECTL_VERSION="v1.18.2"
 
-RUN	wget https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl &&\
+RUN	wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl &&\
 	chmod +x /usr/local/bin/kubectl
 
 # Docker-in-docker

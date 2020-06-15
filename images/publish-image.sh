@@ -72,3 +72,6 @@ fi
 echo "using ${SOURCES_DIR} to build the image"
 
 make -C "${SOURCES_DIR}" ci-release
+
+printf '=%.0s' {1..80}; echo
+echo "Pushing image to ECR: Success"
