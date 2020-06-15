@@ -63,6 +63,8 @@ start_docker
 
 aws_auth
 
+sleep 600
+
 readonly SOURCES_DIR=$1
 
 if [[ -z "${SOURCES_DIR}" ]]; then
