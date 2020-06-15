@@ -5,8 +5,7 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/grafana/'
-    trigger: "retest grafana" # Regexp
-    rerun_command: "retest grafana"  # String
+    rerun_command: "retest grafana-helm-114"  # String
     branches:
       - ^master$
     spec:
@@ -24,8 +23,7 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/grafana/'
-    trigger: "retest grafana" # Regexp
-    rerun_command: "retest grafana"  # String
+    rerun_command: "retest grafana-helm-115"  # String
     branches:
       - ^master$
     spec:
@@ -43,8 +41,7 @@ presubmits:
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/grafana/'
-    trigger: "retest grafana" # Regexp
-    rerun_command: "retest grafana"  # String
+    rerun_command: "retest grafana-helm-116"  # String
     branches:
       - ^master$
     spec:
