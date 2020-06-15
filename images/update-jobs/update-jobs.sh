@@ -17,11 +17,11 @@ echo "******************************************************"
 echo "DryRun of updating job configs for github PR hash $PULL_PULL_SHA"
 echo "******************************************************"
 
-git clone https://github.com/jonahjon/eks-matrix-tests $GOPATH/src/eks-matrix-tests
-
-cd $GOPATH/src/eks-matrix-tests/prow/jobs
-
-git checkout $PULL_PULL_SHA
+# Using prowjob elements:
+# decorate: true 
+# path_alias: github.com/jonahjon/eks-matrix-tests
+# Will pull in the PR git HASH into the image via the Initupload Sidecar
+cd /home/prow/go/src/github.com/jonahjon/eks-matrix-tests
 
 echo "******************************************************"
 echo "Updating Go Dep and running job update"

@@ -1,6 +1,8 @@
 presubmits:
   jonahjon/eks-matrix-tests:
   - name: update-jobs
+    decorate: true
+    path_alias: github.com/jonahjon/eks-matrix-tests
     cluster: prow
     skip_report: false
     agent: kubernetes
