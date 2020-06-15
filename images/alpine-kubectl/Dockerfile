@@ -11,7 +11,3 @@ RUN apk update &&\
 	chmod +x /usr/local/bin/kubectl &&\
 	wget https://get.helm.sh/helm-${HELM_3_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm &&\
 	chmod +x /usr/local/bin/helm
-
-COPY images/prow-tests/runner.sh /usr/local/bin
-
-ENTRYPOINT ["/bin/bash"]
