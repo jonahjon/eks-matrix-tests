@@ -43,3 +43,9 @@ presets:
   env:
   - name: DOCKER_IN_DOCKER_ENABLED
     value: "true"
+  volumes:
+  - name: docker-graph
+    emptyDir: {}
+  volumeMounts:
+  - name: docker-graph
+    mountPath: /docker-graph

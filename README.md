@@ -1,15 +1,71 @@
 ## Aquarium K8s Test Coverage
 
-This repository contains tools and configuration files for the testing 3rd party software on various versions of Amazon EKS.
+This repository contains tools and configuration files for the testing 3rd party software on various versions of Amazon EKS. 
 
-The [architecture diagram](static/architecture.png) provides an overview of how the different services interact, and test on EKS.
 
-## Onboarding Steps
+Aquarium is built upon [Prow](https://github.com/kubernetes/test-infra/tree/master/prow) which is a Kubernetes based CI/CD system. Jobs can be triggered by various types of events and report their status to many different services. In addition to job execution, Prow provides GitHub automation in the form of policy enforcement, chat-ops via `/foo` style commands.
 
-For onboarding 3rd party software onto Aquarium there a minimum of two steps needed to be completed. 
+
+Current Supported Platforms:
+- EKS K8s version 1.14
+- EKS K8s version 1.15
+- EKS K8s version 1.16
+
+The [architecture diagram](static/architecture.png) provides an overview of how the different services interact, and test on EKS clusters.
+
+
+## Getting Started Testing Your Software 
+
+For onboarding 3rd party software onto Aquarium there a minimum of two steps needed to be completed. Fork this repoisotory, and create a PR to get included into this system.
+
+1. Add in a job definition and OWNERS file To read more about about job configuration check out [Prow Job FAQ](/prow/jobs/README.md#adding-or-updating-jobs)
+
+## Job Examples
+
+A presubmit job named "pull-community-verify" that will run against all PRs to
+kubernetes/community's master branch. It will run `make verify` in a checkout
+of kubernetes/community at the PR's HEAD. It will report back to the PR via a
+status context named `pull-kubernetes-community`. Its logs and results are going
+to end up in GCS under `kubernetes-jenkins/pr-logs/pull/community`. Historical
+results will display in testgrid on the `sig-contribex-community` dashboard
+under the `pull-verify` tab
+
+```yaml
+presubmits:
+  kubernetes/community:
+  - name: pull-community-verify  # convention: (job type)-(repo name)-(suite name)
+    annotations:
+      testgrid-dashboards: sig-contribex-community
+      testgrid-tab-name: pull-verify
+    branches:
+    - master
+    decorate: true
+    always_run: true
+    spec:
+      containers:
+      - image: golang:1.12.5
+        command:
+        - /bin/bash
+        args:
+        - -c
+        # Add GOPATH/bin back to PATH to workaround #9469
+        - "export PATH=$GOPATH/bin:$PATH && make verify"
+```
+
+
+
+
+
+
+
+2. Add in a job definition and OWNERS file
+Add in your test image and OWNERS file
+
+
 
 - [Create a folder and OWNER file](/prow/jobs/README.md#adding-or-updating-jobs)
 - [Add or update job definition](/prow/jobs/README.md#adding-or-updating-jobs)
+
 - [Add or update tests](/images/README.md#adding-or-updating-tests)
 
 
