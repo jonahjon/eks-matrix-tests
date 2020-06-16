@@ -17,3 +17,20 @@ presubmits:
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
+  - name: grafana-kubectl-1-1.15
+    cluster: eks-115
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: "^(images/grafana/|prow/jobs/grafana/)"
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+        - usr/local/bin/kubectl.sh
+        - "1_15"
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
+        imagePullPolicy: Always
