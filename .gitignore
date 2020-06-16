@@ -4,7 +4,7 @@
 /prow/cluster/components/workload_clusters.yaml
 /prow/jobs/vendor/
 /bootstrap/data
-/images/bootstrap/data
+/images/bootstrap/data/
 /images/github-runner/
 .github/
 prow/cluster/components/branchprotector-config.yaml
