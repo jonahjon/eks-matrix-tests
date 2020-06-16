@@ -177,7 +177,6 @@ spec:
         checksum/sc-dashboard-provider-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/secret: cc09d82312962294aaca9027b87ce71b2543c43a9e188d1aa6859a7ede5dc6b7
     spec:
-      
       serviceAccountName: test-grafana
       securityContext:
         fsGroup: 472

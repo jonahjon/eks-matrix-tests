@@ -2,11 +2,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: grafana-tester
+  name: grafana-kubectl-test
   namespace: default
+  labels:
+    app.kubernetes.io/name: grafana-kubectl-test
 spec:
   containers:
-    - name: grafana-test
+    - name: grafana-kubectl-test
       image: "bats/bats:v1.1.0"
       imagePullPolicy: "IfNotPresent"
       command: ["/opt/bats/bin/bats", "-t", "/tests/run.sh"]
@@ -17,13 +19,13 @@ spec:
   volumes:
   - name: tests
     configMap:
-      name: grafana-tester
+      name: grafana-kubectl-test
   restartPolicy: Never
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: grafana-tester
+  name: grafana-kubectl-test
   namespace: default
 data:
   run.sh: |-
