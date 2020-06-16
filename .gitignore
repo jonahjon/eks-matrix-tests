@@ -7,3 +7,4 @@
 /images/bootstrap/data
 /images/github-runner/
 .github/
+prow/cluster/components/branchprotector-config.yaml
