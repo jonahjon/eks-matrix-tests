@@ -22,18 +22,22 @@ echo "******************************************************"
 
 kubectl logs -l app.kubernetes.io/instance=grafana
 
-kubectl get pod -l app.kubernetes.io/instance=grafana --field-selector=status.phase!=Running
-
 echo "******************************************************"
 echo "Running Tests"
 echo "******************************************************"
 
 kubectl apply -f templates/tests/tests.yaml --wait
 
+kubectl get pod grafana-kubectl-test --field-selector=status.phase=Succeeded
+
 echo "******************************************************"
-echo "deleting Grafana"
+echo "Tests Passed ........ deleting Grafana"
 echo "******************************************************"
+
+kubectl delete -f templates/tests/tests.yaml --wait
 
 kubectl delete -f templates/grafana.yaml --wait
 
-
+echo "******************************************************"
+echo "Prowjob Finished Sucessfully"
+echo "******************************************************"
