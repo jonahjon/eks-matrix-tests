@@ -20,64 +20,97 @@ For onboarding 3rd party software onto Aquarium there a minimum of two steps nee
 
 1. Add in a job definition and OWNERS file To read more about about job configuration check out [Prow Job FAQ](/prow/jobs/README.md#adding-or-updating-jobs)
 
-## Job Examples
+## I Want to Onboard
 
-A presubmit job named "pull-community-verify" that will run against all PRs to
-kubernetes/community's master branch. It will run `make verify` in a checkout
-of kubernetes/community at the PR's HEAD. It will report back to the PR via a
-status context named `pull-kubernetes-community`. Its logs and results are going
-to end up in GCS under `kubernetes-jenkins/pr-logs/pull/community`. Historical
-results will display in testgrid on the `sig-contribex-community` dashboard
-under the `pull-verify` tab
+These are the steps needed to onboard your software onto Aquarium. Let's walkthrough onboarding a ``` Unicorn ``` service
+
+1).  Create a directory in ``` prow/jobs/unicorn ``` and add an OWNERS file. This will control access to who can approve/merge PR's in ``` prow/jobs/unicorn ```
+
+
+- [Create a directory and OWNER file](/prow/jobs/README.md#adding-or-updating-jobs)
+
+2). Create a job that tests the unicorn software. 
 
 ```yaml
 presubmits:
-  kubernetes/community:
-  - name: pull-community-verify  # convention: (job type)-(repo name)-(suite name)
-    annotations:
-      testgrid-dashboards: sig-contribex-community
-      testgrid-tab-name: pull-verify
+  jonahjon/eks-matrix-tests: # The github user/repo
+  - name: unicorn-helm-114  # convention (software)-(test type)-(EKS verssion)
+
+    cluster: eks-114 # which cluster the base prowjob runs on (eks-114|eks-115|eks-116|prow)
+
+    skip_report: false # report status to github ... set to true when trying new tests
+
+    agent: kubernetes 
+
+    run_if_changed: "^(images/unicorn/|prow/jobs/unicorn/)" # run the job if files in images/unicorn or prow/jobs/unicorn change
+
+    decorate: false # set to true this will upload the entire repository PR hash into the container image. Useful when building images
+
+    path_alias: github.com/jonahjon/eks-matrix-tests # the path that the repository will be cloned to if decorate:true is set
+
     branches:
-    - master
-    decorate: true
-    always_run: true
+      - ^master$ # Run on anything besides master
+
     spec:
       containers:
-      - image: golang:1.12.5
-        command:
-        - /bin/bash
-        args:
-        - -c
-        # Add GOPATH/bin back to PATH to workaround #9469
-        - "export PATH=$GOPATH/bin:$PATH && make verify"
+      - command:
+        - usr/local/bin/helm.sh # the testing script from images/unicorn/helm.sh
+
+        - "1_15" # the arguement used by the bootstrap image to launch additional components into
+
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/unicorn/helm # the image used for testing, from images/unicorn
+
 ```
+By default everytime a job is changed/added/deleted a prowjob called ```update-jobs``` will run and re-sync the system. To learn more about prowjobs checkout the readme, or the official Kubernetes Readme
 
-
-
-
-
-
-
-2. Add in a job definition and OWNERS file
-Add in your test image and OWNERS file
-
-
-
-- [Create a folder and OWNER file](/prow/jobs/README.md#adding-or-updating-jobs)
 - [Add or update job definition](/prow/jobs/README.md#adding-or-updating-jobs)
 
-- [Add or update tests](/images/README.md#adding-or-updating-tests)
+- [Kubernetes Prow Jobs](https://github.com/kubernetes/test-infra/blob/master/prow/jobs.md)
 
 
-Now that you've created both a job definition, and job test. 
+3). This step is optional, but a public image can also be provided.
 
-Aquarium will listen to part of the job spec called "run_if_changed" to listen to file changes on PR's and kickoff the testing process when it sees changes.
+Now that you've added the prowjob, we are going to create the image used by our prowjob. We creare the directory ```images/unicorn``` and add in a our build steps, and test files we will be using. We then add an image building job in to listen, and build new images of ```unicorn```
 
-```    
-run_if_changed: '^images/grafana/'
+```yaml
+presubmits:
+  jonahjon/eks-matrix-tests: 
+  - name: unicorn-image
+    decorate: true
+    path_alias: github.com/jonahjon/eks-matrix-tests
+    cluster: prow # This is now running in our base prow cluster, not a testing cluster. 
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^images/unicorn/'
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+          - "/home/prow/go/src/github.com/jonahjon/eks-matrix-tests/images/publish-image.sh" #We are using the publish-image.sh script which requires a makefile in your images folder. This can be changed.
+        args:
+          - "/home/prow/go/src/github.com/jonahjon/eks-matrix-tests/images/grafana" # We provide the publish-image.sh the location in which we want it to run the Makefile for, which handles the build/push
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap # Our base debain stretch image has Docker, Docker IN Docker, awscli, and access to all clusters
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 1.5Gi
+            cpu: 0.8
+            ephemeral-storage: "1Gi"
+        securityContext: # this is required when pods perform builds of images
+          privileged: true
 ```
 
-In this example any files within ```images/grafana```  that get changed on a PR will kickoff a testing job defined by yaml file ```prow/jobs/grafana/grafana.yaml```.
+To see more information about the image building check out:
+
+- [OPTIONAL: Add or update images/tests](/images/README.md#adding-or-updating-tests)
+
 
 ## Results and Logs
 
