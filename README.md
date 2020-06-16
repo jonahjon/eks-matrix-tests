@@ -123,14 +123,16 @@ The [architecture diagram](static/architecture.png) provides an overview of how 
 
 ## Re-Testing PR Workflow
 
+If a job fails the Github bot will provide you will re-test commands. If the job ```unicorn-helm-114``` fails
 
+The re-run command will be ```/test unicorn-helm-114```
 
 
 ## Build Badges
 
 basic badge sytnax for deck jobs is:
 
-	http://PROW-URL/badge.svg?jobs=eks-open-source-readme
+	http://PROW-URL/badge.svg?jobs=unicorn-helm-114
 
 
 # Test Results
