@@ -5,10 +5,8 @@ DISABLE_MD_LINTING=1
 DISABLE_MD_LINK_CHECK=1
 export GO111MODULE=on
 
-#in the prowjob  /usr/local/bin/runner.sh (1_14 | 1_15 | 1_16)
+#in the prowjob (1_14 | 1_15 | 1_16)
 export KUBECONFIG="$@"_cluster.config
-
-kubectl get pods
 
 echo "******************************************************"
 echo "adding helm chart repo"
