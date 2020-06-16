@@ -29,10 +29,19 @@ These are the steps needed to onboard your software onto Aquarium. Let's walkthr
 
 - [Create a directory and OWNER file](/prow/jobs/README.md#adding-or-updating-jobs)
 
+```yaml
+approvers:
+- Unicorn-lead-dev # lead
+reviewers:
+- Unicorn-lead-dev
+- Unicorn-dev-1
+- Unicorn-dev-2
+```
+
 2). Create a job that tests the unicorn software. 
 
 ```yaml
-presubmits:
+presubmits: # Presubmit runs before the PR is merged
   jonahjon/eks-matrix-tests: # The github user/repo
   - name: unicorn-helm-114  # convention (software)-(test type)-(EKS verssion)
 
