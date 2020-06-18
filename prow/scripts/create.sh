@@ -8,6 +8,11 @@ kubectl create configmap job-config --from-file "./prow/jobs/config.yaml"
 kubectl create configmap branding --from-file "./prow/branding"
 kubectl create secret generic hmac-token --from-file "./prow/cluster/components/bot_hmac"
 kubectl create secret generic oauth-token --from-file "./prow/cluster/components/bot_oauth"
+kubectl create secret generic github-oauth-config --from-file=secret="./prow/cluster/components/deck_oauth"
+kubectl create secret generic cookie --from-file=secret="./prow/cluster/components/cookie.txt"
+
+
+
 
 #I think there is some amount of dependcy on starting these up so we go them one at a time
 kubectl apply -f "./prow/cluster/components/01-ghproxy.yaml"
