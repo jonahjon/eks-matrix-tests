@@ -27,6 +27,17 @@ spec:
         - name: deck
           image: gcr.io/k8s-prow/deck:v20200610-6c96a0a6ed
           args:
+            # - --oauth-url=/github-login
+            # - --config-path=/etc/config/config.yaml
+            # - --job-config-path=/etc/job-config
+            # - --spyglass=true
+            # - --rerun-creates-job
+            # - --github-token-path=/etc/github/oauth
+            # - --github-endpoint=http://ghproxy
+            # - --github-endpoint=https://api.github.com
+            # - --github-oauth-config-file=/etc/githuboauth/secret
+            - --allow-insecure
+            - --github-oauth-config-file=/etc/githuboauth/secret
             - --hook-url=http://hook:8888/hook
             - --config-path=/etc/config/config.yaml
             - --job-config-path=/etc/job-config
@@ -36,6 +47,7 @@ spec:
             - --github-endpoint=https://api.github.com
             - --github-token-path=/etc/github/oauth
             - --spyglass=true
+            - --oauth-url=/github-login
           ports:
             - name: http
               containerPort: 8080
@@ -58,6 +70,12 @@ spec:
             - name: kubeconfig
               mountPath: /etc/kubeconfig
               readOnly: true
+            - name: oauth-config
+              mountPath: /etc/githuboauth
+              readOnly: true
+            - name: cookie-secret
+              mountPath: /etc/cookie
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /healthz
@@ -76,6 +94,12 @@ spec:
           secret:
             defaultMode: 0644
             secretName: kubeconfig
+        - name: oauth-config
+          secret:
+              secretName: github-oauth-config
+        - name: cookie-secret
+          secret:
+              secretName: cookie
         - name: config
           configMap:
             name: config
