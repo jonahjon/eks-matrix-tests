@@ -6,7 +6,7 @@ DISABLE_MD_LINK_CHECK=1
 export GO111MODULE=on
 
 #in the prowjob  (1_14 | 1_15 | 1_16)
-export KUBECONFIG="$@"_cluster.config
+export KUBECONFIG=/workspace/"$@"_cluster.config
 
 kubectl get pods
 
