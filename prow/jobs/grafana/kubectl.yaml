@@ -11,8 +11,8 @@ presubmits:
     spec:
       containers:
       - command:
-        - sleep 
-        - "300"
+        - images/grafana/kubectl.sh
+        - "1_14"
         env:
         - name: AWS_REGION
           value: us-west-2
@@ -29,8 +29,8 @@ presubmits:
     spec:
       containers:
       - command:
-        - sleep 
-        - "300"
+        - images/grafana/kubectl.sh
+        - "1_15"
         env:
         - name: AWS_REGION
           value: us-west-2
@@ -47,7 +47,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/kubectl.sh
+        - images/grafana/kubectl.sh
         - "1_16"
         env:
         - name: AWS_REGION

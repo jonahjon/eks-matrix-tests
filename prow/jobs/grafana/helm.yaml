@@ -10,7 +10,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/helm.sh
+        - images/grafana/helm.sh
         - "1_14"
         env:
         - name: AWS_DEFAULT_REGION
@@ -27,7 +27,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/helm.sh
+        - images/grafana/helm.sh
         - "1_15"
         env:
         - name: AWS_DEFAULT_REGION
@@ -44,7 +44,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/helm.sh 
+        - images/grafana/helm.sh
         - "1_16"
         env:
         - name: AWS_DEFAULT_REGION
