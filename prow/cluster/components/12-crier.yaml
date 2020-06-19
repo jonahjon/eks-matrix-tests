@@ -21,6 +21,9 @@ spec:
       containers:
       - name: crier
         image: gcr.io/k8s-prow/crier:v20200617-ea73eaeab7
+        env:
+        - name: AWS_REGION
+          value: us-west-2
         args:
         - --github-workers=1
         - --kubeconfig=/etc/kubeconfig/config
