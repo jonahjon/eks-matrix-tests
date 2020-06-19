@@ -11,8 +11,8 @@ presubmits:
     spec:
       containers:
       - command:
-        - /home/prow/go/src/kubectl.sh
-        - "1_14"
+        - sleep 
+        - "300"
         env:
         - name: AWS_REGION
           value: us-west-2
@@ -29,8 +29,8 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/kubectl.sh
-        - "1_15"
+        - sleep 
+        - "300"
         env:
         - name: AWS_REGION
           value: us-west-2
