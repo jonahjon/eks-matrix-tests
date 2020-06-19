@@ -13,7 +13,7 @@ presubmits:
         - usr/local/bin/helm.sh
         - "1_14"
         env:
-        - name: AWS_DEFAULT_REGION
+        - name: AWS_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
@@ -30,7 +30,7 @@ presubmits:
         - usr/local/bin/helm.sh
         - "1_15"
         env:
-        - name: AWS_DEFAULT_REGION
+        - name: AWS_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
@@ -47,7 +47,7 @@ presubmits:
         - usr/local/bin/helm.sh 
         - "1_16"
         env:
-        - name: AWS_DEFAULT_REGION
+        - name: AWS_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
