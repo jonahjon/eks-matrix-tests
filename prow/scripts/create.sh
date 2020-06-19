@@ -29,9 +29,9 @@ kubectl apply -f "./prow/cluster/components/11-alb_ingress.yaml"
 kubectl apply -f "./prow/cluster/components/12-crier.yaml"
 
 
-# Create Service Account for Plank Decoration
+# # Create Service Account for Plank Decoration
 eksctl create iamserviceaccount \
-                --name sa-s3-plank \
+                --name s3-deck \
                 --namespace default \
                 --cluster prow \
                 --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess \

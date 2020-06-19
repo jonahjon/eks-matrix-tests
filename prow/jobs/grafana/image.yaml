@@ -16,7 +16,7 @@ presubmits:
         args:
           - "/home/prow/go/src/github.com/jonahjon/eks-matrix-tests/images/grafana"
         env:
-        - name: AWS_DEFAULT_REGION
+        - name: AWS_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap
         imagePullPolicy: Always

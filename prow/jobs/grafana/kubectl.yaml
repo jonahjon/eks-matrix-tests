@@ -1,6 +1,7 @@
 presubmits:
   jonahjon/eks-matrix-tests: 
   - name: grafana-kubectl-1-1.14
+    decorate: true
     cluster: eks-114
     skip_report: false
     agent: kubernetes
@@ -10,14 +11,15 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/kubectl.sh
+        - /home/prow/go/src/kubectl.sh
         - "1_14"
         env:
-        - name: AWS_DEFAULT_REGION
+        - name: AWS_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
   - name: grafana-kubectl-1-1.15
+    decorate: true
     cluster: eks-115
     skip_report: false
     agent: kubernetes
@@ -30,11 +32,12 @@ presubmits:
         - usr/local/bin/kubectl.sh
         - "1_15"
         env:
-        - name: AWS_DEFAULT_REGION
+        - name: AWS_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
   - name: grafana-kubectl-1-1.16
+    decorate: true
     cluster: eks-116
     skip_report: false
     agent: kubernetes
@@ -47,7 +50,7 @@ presubmits:
         - usr/local/bin/kubectl.sh
         - "1_16"
         env:
-        - name: AWS_DEFAULT_REGION
+        - name: AWS_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always

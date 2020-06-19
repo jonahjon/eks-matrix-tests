@@ -21,11 +21,14 @@ spec:
       labels:
         app: deck
     spec:
-      serviceAccountName: "deck"
+      serviceAccountName: "s3-deck"
       terminationGracePeriodSeconds: 30
       containers:
         - name: deck
           image: gcr.io/k8s-prow/deck:v20200610-6c96a0a6ed
+          env:
+          - name: AWS_REGION
+            value: us-west-2
           args:
             - --allow-insecure
             - --github-oauth-config-file=/etc/githuboauth/secret
@@ -108,12 +111,6 @@ spec:
             defaultMode: 420
             name: branding
 ---
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  namespace: default
-  name: "deck"
----
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
@@ -125,7 +122,7 @@ roleRef:
   name: "deck"
 subjects:
   - kind: ServiceAccount
-    name: "deck"
+    name: "s3-deck"
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
