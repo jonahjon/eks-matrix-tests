@@ -6,7 +6,7 @@ This folder contains a Docker image used to launch and test Grafana via helm and
 
 ## Installation
 
-To build the Docker image, run this command
+To build the Docker image, run this command:
 
 ```
 docker build -t grafana/alpine-kubectl .

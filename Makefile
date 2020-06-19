@@ -13,12 +13,15 @@ reload-components:
 	kubectl delete -f "./prow/cluster/components/05-plank.yaml"
 	kubectl delete -f "./prow/cluster/components/06-sinker.yaml"
 	kubectl delete -f "./prow/cluster/components/07-deck.yaml"
+	kubectl delete -f "./prow/cluster/components/12-crier.yaml"
 	kubectl create configmap config --from-file=config.yaml=prow/cluster/components/config.yaml --dry-run -o yaml | kubectl replace configmap config -f -
 	sleep 20
 	kubectl apply -f "./prow/cluster/components/04-hook.yaml"
 	kubectl apply -f "./prow/cluster/components/05-plank.yaml"
 	kubectl apply -f "./prow/cluster/components/06-sinker.yaml"
 	kubectl apply -f "./prow/cluster/components/07-deck.yaml"
+	kubectl apply -f "./prow/cluster/components/12-crier.yaml"
+
 
 update-config:
 	kubectl create configmap config --from-file=config.yaml=prow/cluster/components/config.yaml --dry-run -o yaml | kubectl replace configmap config -f -
