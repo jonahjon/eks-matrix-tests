@@ -11,10 +11,10 @@ presubmits:
     spec:
       containers:
       - command:
-        - sleep 
-        - "300"
+        - images/grafana/helm.sh
+        - "1_14"
         env:
-        - name: AWS_REGION
+        - name: AWS_DEFAULT_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
@@ -29,10 +29,10 @@ presubmits:
     spec:
       containers:
       - command:
-        - sleep 
-        - "300"
+        - images/grafana/helm.sh
+        - "1_15"
         env:
-        - name: AWS_REGION
+        - name: AWS_DEFAULT_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
@@ -47,10 +47,10 @@ presubmits:
     spec:
       containers:
       - command:
-        - /home/prow/go/src/helm.sh 
+        - images/grafana/helm.sh
         - "1_16"
         env:
-        - name: AWS_REGION
+        - name: AWS_DEFAULT_REGION
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always

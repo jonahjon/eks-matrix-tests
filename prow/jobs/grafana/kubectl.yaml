@@ -11,7 +11,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - /home/prow/go/src/kubectl.sh
+        - images/grafana/kubectl.sh
         - "1_14"
         env:
         - name: AWS_REGION
@@ -29,7 +29,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/kubectl.sh
+        - images/grafana/kubectl.sh
         - "1_15"
         env:
         - name: AWS_REGION
@@ -47,7 +47,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/kubectl.sh
+        - images/grafana/kubectl.sh
         - "1_16"
         env:
         - name: AWS_REGION
