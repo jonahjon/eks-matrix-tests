@@ -11,7 +11,7 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/kubectl.sh
+        - /home/prow/go/src/kubectl.sh
         - "1_14"
         env:
         - name: AWS_REGION
