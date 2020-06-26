@@ -1,6 +1,7 @@
 presubmits:
   jonahjon/eks-matrix-tests:
-  - name: prometheus1-1.14
+  - name: prometheus-helm-1-1.14
+    decorate: true
     cluster: eks-114
     skip_report: false
     agent: kubernetes
@@ -10,14 +11,15 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/runner.sh 
+        - images/prometheus/helm.sh
         - "1_14"
         env:
         - name: AWS_DEFAULT_REGION
           value: us-west-2
-        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/prometheus/alpine-kubectl
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
         imagePullPolicy: Always
-  - name: prometheus1-1.15
+  - name: prometheus-helm-1-1.15
+    decorate: true
     cluster: eks-115
     skip_report: false
     agent: kubernetes
@@ -27,14 +29,15 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/runner.sh 
+        - images/prometheus/helm.sh
         - "1_15"
         env:
         - name: AWS_DEFAULT_REGION
           value: us-west-2
-        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/prometheus/alpine-kubectl
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
         imagePullPolicy: Always
-  - name: prometheus1-1.16
+  - name: prometheus-helm-1-1.16
+    decorate: true
     cluster: eks-116
     skip_report: false
     agent: kubernetes
@@ -44,10 +47,10 @@ presubmits:
     spec:
       containers:
       - command:
-        - usr/local/bin/runner.sh 
+        - images/prometheus/helm.sh
         - "1_16"
         env:
         - name: AWS_DEFAULT_REGION
           value: us-west-2
-        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/prometheus/alpine-kubectl
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
         imagePullPolicy: Always

@@ -16,7 +16,7 @@ spec:
         use: github
         app: crier
     spec:
-      serviceAccountName: crier
+      serviceAccountName: s3-crier
       terminationGracePeriodSeconds: 30
       containers:
       - name: crier
@@ -26,6 +26,8 @@ spec:
           value: us-west-2
         args:
         - --github-workers=1
+        - --kubernetes-blob-storage-workers=1
+        - --blob-storage-workers=1
         - --kubeconfig=/etc/kubeconfig/config
         - --config-path=/etc/config/config.yaml
         - --job-config-path=/etc/job-config
@@ -61,11 +63,6 @@ spec:
         secret:
           secretName: oauth-token
 ---
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  name: "crier"
----
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -93,5 +90,5 @@ roleRef:
   name: "crier"
 subjects:
 - kind: ServiceAccount
-  name: "crier"
+  name: "s3-crier"
   namespace: "default"
