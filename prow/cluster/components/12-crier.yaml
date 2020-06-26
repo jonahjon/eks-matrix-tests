@@ -61,11 +61,6 @@ spec:
         secret:
           secretName: oauth-token
 ---
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  name: "crier"
----
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -93,5 +88,5 @@ roleRef:
   name: "crier"
 subjects:
 - kind: ServiceAccount
-  name: "crier"
+  name: "s3-crier"
   namespace: "default"

@@ -104,4 +104,4 @@ roleRef:
   name: "plank"
 subjects:
   - kind: ServiceAccount
-    name: "plank"
+    name: "s3-deck"
