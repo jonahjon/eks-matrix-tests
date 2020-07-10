@@ -18,7 +18,7 @@ spec:
       labels:
         app: horologium
     spec:
-      serviceAccountName: "horologium"
+      serviceAccountName: "s3-deck"
       terminationGracePeriodSeconds: 30
       containers:
         - name: horologium
@@ -45,12 +45,6 @@ spec:
           configMap:
             name: job-config
 ---
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  namespace: default
-  name: "horologium"
----
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
@@ -76,4 +70,4 @@ roleRef:
   name: "horologium"
 subjects:
   - kind: ServiceAccount
-    name: "horologium"
+    name: "s3-deck"

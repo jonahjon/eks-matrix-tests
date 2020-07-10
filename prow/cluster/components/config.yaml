@@ -44,9 +44,26 @@ plank:
         path_strategy: explicit
       s3_credentials_secret: "sa-s3-plank" # Service account Secret with "S3 access" IAM role
 
+horologium:
+  pod_pending_timeout: 60m
+  default_decoration_configs:
+    '*':
+      timeout: 1h
+      grace_period: 10m
+      utility_images:
+        clonerefs: "gcr.io/k8s-prow/clonerefs:v20200609-2d17640dc1"
+        initupload: "gcr.io/k8s-prow/initupload:v20200609-2d17640dc1"
+        entrypoint: "gcr.io/k8s-prow/entrypoint:v20200609-2d17640dc1"
+        sidecar: "gcr.io/k8s-prow/sidecar:v20200609-2d17640dc1"
+      gcs_configuration:
+        bucket: s3://aquarium-eks-logs
+        path_strategy: explicit
+      s3_credentials_secret: "sa-s3-plank" 
+
+
 sinker:
   resync_period: 1m
-  max_prowjob_age: 240h
+  max_prowjob_age: 480h
   max_pod_age: 240h
   terminated_pod_ttl: 2h
 

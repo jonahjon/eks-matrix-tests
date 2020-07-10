@@ -54,3 +54,61 @@ presubmits:
           value: us-west-2
         image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
         imagePullPolicy: Always
+periodics:
+  - name: periodic-grafana-kubectl-1-1.14
+    decorate: true
+    cluster: eks-114
+    interval: 240h
+    extra_refs:
+    - org: jonahjon
+      repo: eks-matrix-tests
+      base_ref: master
+    agent: kubernetes
+    spec:
+      containers:
+      - command:
+        - images/grafana/kubectl.sh
+        - "1_14"
+        env:
+        - name: AWS_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
+        imagePullPolicy: Always
+  - name: periodic-grafana-kubectl-1-1.15
+    decorate: true
+    cluster: eks-115
+    interval: 240h
+    extra_refs:
+    - org: jonahjon
+      repo: eks-matrix-tests
+      base_ref: master
+    agent: kubernetes
+    spec:
+      containers:
+      - command:
+        - images/grafana/kubectl.sh
+        - "1_15"
+        env:
+        - name: AWS_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
+        imagePullPolicy: Always
+  - name: periodic-grafana-kubectl-1-1.16
+    decorate: true
+    cluster: eks-116
+    interval: 240h
+    extra_refs:
+    - org: jonahjon
+      repo: eks-matrix-tests
+      base_ref: master
+    agent: kubernetes
+    spec:
+      containers:
+      - command:
+        - images/grafana/kubectl.sh
+        - "1_16"
+        env:
+        - name: AWS_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/grafana/alpine-kubectl
+        imagePullPolicy: Always

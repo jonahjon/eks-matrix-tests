@@ -18,7 +18,7 @@ spec:
       labels:
         app: plank
     spec:
-      serviceAccountName: "plank"
+      serviceAccountName: "s3-deck"
       containers:
         - name: plank
           image: gcr.io/k8s-prow/plank:v20200610-6c96a0a6ed
@@ -61,12 +61,6 @@ spec:
         - name: job-config
           configMap:
             name: job-config
----
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  namespace: default
-  name: "plank"
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1

@@ -1,0 +1,114 @@
+presubmits:
+  jonahjon/eks-matrix-tests:
+  - name: prometheus-helm-1-1.14
+    decorate: true
+    cluster: eks-114
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^images/prometheus/'
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+        - images/prometheus/helm.sh
+        - "1_14"
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
+        imagePullPolicy: Always
+  - name: prometheus-helm-1-1.15
+    decorate: true
+    cluster: eks-115
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^images/prometheus/'
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+        - images/prometheus/helm.sh
+        - "1_15"
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
+        imagePullPolicy: Always
+  - name: prometheus-helm-1-1.16
+    decorate: true
+    cluster: eks-116
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^images/prometheus/'
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+        - images/prometheus/helm.sh
+        - "1_16"
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
+        imagePullPolicy: Always
+periodics:
+  - name: periodic-prometheus-helm-1-1.14
+    decorate: true
+    cluster: eks-114
+    interval: 240h
+    extra_refs:
+    - org: jonahjon
+      repo: eks-matrix-tests
+      base_ref: master
+    agent: kubernetes
+    spec:
+      containers:
+      - command:
+        - images/prometheus/helm.sh
+        - "1_14"
+        env:
+        - name: AWS_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
+        imagePullPolicy: Always
+  - name: periodic-prometheus-helm-1-1.15
+    decorate: true
+    cluster: eks-115
+    interval: 240h
+    extra_refs:
+    - org: jonahjon
+      repo: eks-matrix-tests
+      base_ref: master
+    agent: kubernetes
+    spec:
+      containers:
+      - command:
+        - images/prometheus/helm.sh
+        - "1_15"
+        env:
+        - name: AWS_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
+        imagePullPolicy: Always
+  - name: periodic-prometheus-helm-1-1.16
+    decorate: true
+    cluster: eks-116
+    interval: 240h
+    extra_refs:
+    - org: jonahjon
+      repo: eks-matrix-tests
+      base_ref: master
+    agent: kubernetes
+    spec:
+      containers:
+      - command:
+        - images/prometheus/helm.sh
+        - "1_16"
+        env:
+        - name: AWS_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/aquarium/prometheus
+        imagePullPolicy: Always
