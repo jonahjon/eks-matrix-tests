@@ -29,7 +29,7 @@ kubectl apply -f images/prometheus/templates/tests/tests.yaml --wait
 kubectl get pod -l app.kubernetes.io/name=prometheus-kubectl-test --field-selector=status.phase!=Running
 
 echo "******************************************************"
-echo "Tests Passed ........ deleting Grafana"
+echo "Tests Passed ........ deleting Prometheus"
 echo "******************************************************"
 
 kubectl delete -f images/prometheus/templates/tests/tests.yaml --wait
