@@ -3,33 +3,41 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: default
-  name: sinker
+  name: plank
   labels:
-    app: sinker
+    app: plank
 spec:
   selector:
     matchLabels:
-      app: sinker
-  replicas: 1
+      app: plank
+  replicas: 1 # Do not scale up.
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app: sinker
+        app: plank
     spec:
-      serviceAccountName: "sinker"
+      serviceAccountName: "s3-deck"
       containers:
-        - name: sinker
-          image: gcr.io/k8s-prow/sinker:v20200715-6a0bba187f
+        - name: plank
+          image: gcr.io/k8s-prow/plank:{{ .Values.prowimagetag }}
           env:
           - name: AWS_REGION
             value: us-west-2
           args:
+            - --dry-run=false
             - --config-path=/etc/config/config.yaml
+            - --github-endpoint=http://ghproxy
+            - --github-endpoint=https://api.github.com
+            - --github-token-path=/etc/github/oauth
             - --job-config-path=/etc/job-config
             - --kubeconfig=/etc/kubeconfig/config
-            # - --run-once=true
-            - --dry-run=false
+            - --skip-report=true
           volumeMounts:
+            - name: oauth
+              mountPath: /etc/github
+              readOnly: true
             - name: config
               mountPath: /etc/config
               readOnly: true
@@ -44,6 +52,9 @@ spec:
           secret:
             defaultMode: 0644
             secretName: kubeconfig
+        - name: oauth
+          secret:
+            secretName: oauth-token
         - name: config
           configMap:
             name: config
@@ -51,23 +62,18 @@ spec:
           configMap:
             name: job-config
 ---
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  namespace: default
-  name: "sinker"
----
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   namespace: default
-  name: "sinker"
+  name: "plank"
 rules:
   - apiGroups:
       - ""
     resources:
       - pods
     verbs:
+      - create
       - delete
       - list
   - apiGroups:
@@ -75,36 +81,21 @@ rules:
     resources:
       - prowjobs
     verbs:
-      - delete
-      - list
-      - watch
       - get
-  - apiGroups:
-      - ""
-    resources:
-      - configmaps
-    resourceNames:
-      - prow-sinker-leaderlock
-    verbs:
-      - get
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - configmaps
-      - events
-    verbs:
       - create
+      - list
+      - update
+      - patch
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   namespace: default
-  name: "sinker"
+  name: "plank"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: "sinker"
+  name: "plank"
 subjects:
   - kind: ServiceAccount
-    name: "sinker"
+    name: "s3-deck"

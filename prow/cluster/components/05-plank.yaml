@@ -21,7 +21,7 @@ spec:
       serviceAccountName: "s3-deck"
       containers:
         - name: plank
-          image: gcr.io/k8s-prow/plank:v20200610-6c96a0a6ed
+          image: gcr.io/k8s-prow/plank:v20200715-6a0bba187f
           env:
           - name: AWS_REGION
             value: us-west-2
