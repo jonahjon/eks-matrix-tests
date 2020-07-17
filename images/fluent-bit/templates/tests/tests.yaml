@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: fluent-bit-test
   labels:
-    app: fluent-bit
-    release: "fluent-bit"
+    app: fluent-bit-test
+    release: "fluent-bit-test"
 data:
   run.sh: |-
     @test "Test fluentd" {
@@ -30,8 +30,6 @@ metadata:
   labels:
     app: fluent-bit
     release: "fluent-bit"
-  annotations:
-    "helm.sh/hook": test-success
 spec:
   initContainers:
     - name: test-framework

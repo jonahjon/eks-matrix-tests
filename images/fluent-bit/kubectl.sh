@@ -28,7 +28,7 @@ echo "******************************************************"
 
 kubectl apply -f images/fluent-bit/templates/tests/tests.yaml --wait
 
-kubectl get pod -l app.kubernetes.io/name=fluent-bit --field-selector=status.phase!=Running
+kubectl get pod -l app=fluent-bit-test
 
 echo "******************************************************"
 echo "Tests Passed ........ deleting Grafana"
