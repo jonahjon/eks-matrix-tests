@@ -1,0 +1,29 @@
+presubmits:
+  jonahjon/eks-matrix-tests: 
+  - name: fluent-bit-image
+    decorate: true
+    path_alias: github.com/jonahjon/eks-matrix-tests
+    cluster: prow
+    skip_report: false
+    agent: kubernetes
+    run_if_changed: '^images/fluent-bit/'
+    branches:
+      - ^master$
+    spec:
+      containers:
+      - command:
+          - "/home/prow/go/src/github.com/jonahjon/eks-matrix-tests/images/publish-image.sh"
+        args:
+          - "/home/prow/go/src/github.com/jonahjon/eks-matrix-tests/images/fluent-bit"
+        env:
+        - name: AWS_REGION
+          value: us-west-2
+        image: 164382793440.dkr.ecr.us-west-2.amazonaws.com/bootstrap
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 1.5Gi
+            cpu: 0.8
+            ephemeral-storage: "1Gi"
+        securityContext:
+          privileged: true
