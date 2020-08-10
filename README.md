@@ -90,7 +90,7 @@ presubmits:
   - name: unicorn-image
     decorate: true
     path_alias: github.com/jonahjon/eks-matrix-tests
-    cluster: prow # This is now running in our base prow cluster, not a testing cluster. 
+    cluster: aquarium # This is now running in our base prow cluster, not a testing cluster. 
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/unicorn/'
