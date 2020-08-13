@@ -13,7 +13,7 @@ presubmits:
       containers:
       - command:
         - /workspace/update-jobs.sh
-        - "prow"
+        - "aquarium"
         env:
         - name: AWS_REGION
           value: us-west-2

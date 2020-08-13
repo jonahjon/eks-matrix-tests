@@ -16,4 +16,4 @@ docker build -t aquarium/fluent-bit .
 
 | Image | Status |
 | ----------- | -----------
-| **Grafana/alpine-kubectl** | [![](http://a69660e52137f4cbcaefaf44e7c02ebb-1275564336.us-west-2.elb.amazonaws.com/badge.svg?jobs=grafana-image)](http://a69660e52137f4cbcaefaf44e7c02ebb-1275564336.us-west-2.elb.amazonaws.com/badge.svg?jobs=grafana-image) |
+| **Grafana/alpine-kubectl** | [![](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//badge.svg?jobs=grafana-image)](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//badge.svg?jobs=grafana-image) |
