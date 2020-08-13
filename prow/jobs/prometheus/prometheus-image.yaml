@@ -3,7 +3,7 @@ presubmits:
   - name: prometheus-image
     decorate: true
     path_alias: github.com/jonahjon/eks-matrix-tests
-    cluster: prow
+    cluster: aquarium
     skip_report: false
     agent: kubernetes
     run_if_changed: '^images/prometheus/'

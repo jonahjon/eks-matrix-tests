@@ -12,3 +12,4 @@
 prow/cluster/components/branchprotector-config.yaml
 prow/cluster/components/cookie.txt
 images/.DS_Store
+aws-k8s-tester
