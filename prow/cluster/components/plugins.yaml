@@ -5,7 +5,7 @@ triggers:
 
 config_updater:
   maps:
-    prow/cluster/components/config_all.yaml:
+    prow/cluster/components/config.yaml:
       name: config
     prow/cluster/components/plugins.yaml:
       name: plugins
