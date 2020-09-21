@@ -24,7 +24,7 @@ deck:
 plank:
   job_url_template: 'http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com/view/s3/aquarium-eks-logs/{{if eq .Spec.Type "presubmit"}}pr-logs/pull{{else if eq .Spec.Type "batch"}}pr-logs/pull{{else}}logs{{end}}{{if .Spec.Refs}}{{if ne .Spec.Refs.Org ""}}/{{.Spec.Refs.Org}}_{{.Spec.Refs.Repo}}{{end}}{{end}}{{if eq .Spec.Type "presubmit"}}/{{with index .Spec.Refs.Pulls 0}}{{.Number}}{{end}}{{else if eq .Spec.Type "batch"}}/batch{{end}}/{{.Spec.Job}}/{{.Status.BuildID}}/'
   job_url_prefix_config:
-    '*': http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//view/s3/
+    '*': http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com/view/
   report_templates:
     '*': '[Full PR test history](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com/pr-history?org={{.Spec.Refs.Org}}&repo={{.Spec.Refs.Repo}}&pr={{with index .Spec.Refs.Pulls 0}}{{.Number}}{{end}}). Please help us cut down on flakes by [linking to](https://git.k8s.io/community/contributors/devel/sig-testing/flaky-tests.md#filing-issues-for-flaky-tests) an [open issue](https://github.com/{{.Spec.Refs.Org}}/{{.Spec.Refs.Repo}}/issues?q=is:issue+is:open) when you hit one in your PR.'
   allow_cancellations: true # AllowCancellations enables aborting presubmit jobs for commits that have been superseded by newer commits in Github pull requests.
@@ -35,14 +35,14 @@ plank:
       timeout: 1h
       grace_period: 10m
       utility_images:
-        clonerefs: "gcr.io/k8s-prow/clonerefs:v20200609-2d17640dc1"
-        initupload: "gcr.io/k8s-prow/initupload:v20200609-2d17640dc1"
-        entrypoint: "gcr.io/k8s-prow/entrypoint:v20200609-2d17640dc1"
-        sidecar: "gcr.io/k8s-prow/sidecar:v20200609-2d17640dc1"
+        clonerefs: "gcr.io/k8s-prow/clonerefs:v20200921-becd8c9356"
+        initupload: "gcr.io/k8s-prow/initupload:v20200921-becd8c9356"
+        entrypoint: "gcr.io/k8s-prow/entrypoint:v20200921-becd8c9356"
+        sidecar: "gcr.io/k8s-prow/sidecar:v20200921-becd8c9356"
       gcs_configuration:
         bucket: s3://aquarium-eks-logs
         path_strategy: explicit
-      s3_credentials_secret: "sa-s3-plank" # Service account Secret with "S3 access" IAM role
+      s3_credentials_secret: "s3-credentials" # Service account Secret with "S3 access" IAM role
 
 horologium:
   pod_pending_timeout: 60m
@@ -51,14 +51,14 @@ horologium:
       timeout: 1h
       grace_period: 10m
       utility_images:
-        clonerefs: "gcr.io/k8s-prow/clonerefs:v20200609-2d17640dc1"
-        initupload: "gcr.io/k8s-prow/initupload:v20200609-2d17640dc1"
-        entrypoint: "gcr.io/k8s-prow/entrypoint:v20200609-2d17640dc1"
-        sidecar: "gcr.io/k8s-prow/sidecar:v20200609-2d17640dc1"
+        clonerefs: "gcr.io/k8s-prow/clonerefs:v20200921-becd8c9356"
+        initupload: "gcr.io/k8s-prow/initupload:v20200921-becd8c9356"
+        entrypoint: "gcr.io/k8s-prow/entrypoint:v20200921-becd8c9356"
+        sidecar: "gcr.io/k8s-prow/sidecar:v20200921-becd8c9356"
       gcs_configuration:
         bucket: s3://aquarium-eks-logs
         path_strategy: explicit
-      s3_credentials_secret: "sa-s3-plank" 
+      s3_credentials_secret: "s3-credentials" 
 
 
 sinker:
@@ -67,15 +67,17 @@ sinker:
   max_pod_age: 240h
   terminated_pod_ttl: 2h
 
-presets:
-- labels:
-    preset-dind-enabled: "true"
-  env:
-  - name: DOCKER_IN_DOCKER_ENABLED
-    value: "true"
-  volumes:
-  - name: docker-graph
-    emptyDir: {}
-  volumeMounts:
-  - name: docker-graph
-    mountPath: /docker-graph
+
+tide:
+  queries:
+  - labels:
+    - lgtm
+    - approved
+    missingLabels:
+    - needs-rebase
+    - do-not-merge/hold
+    - do-not-merge/work-in-progress
+    - do-not-merge/invalid-owners-file
+    repos:
+    - jonahjon/eks-matrix-tests
+

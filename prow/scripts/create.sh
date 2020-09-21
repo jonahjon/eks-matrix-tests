@@ -28,6 +28,8 @@ kubectl apply -f "./prow/cluster/components/11-alb_ingress.yaml"
 kubectl apply -f "./prow/cluster/components/12-crier.yaml"
 
 # Create the s3 creds for the blog storage buckets
+kubectl create secret generic s3-credentials --from-file=service-account.json=./prow/cluster/components/service-account.json --dry-run -o yaml | kubectl replace secret sa-s3-plank -f -
+
 kubectl create secret generic sa-s3-plank --from-file=service-account.json=./prow/cluster/components/service-account.json --dry-run -o yaml | kubectl replace secret sa-s3-plank -f -
 
 # # Create Service Account for Plank Decoration and dropping pod info into bucket logs
@@ -41,6 +43,14 @@ eksctl create iamserviceaccount \
 # Create the SA for the s3 access for crier and spyglass
 eksctl create iamserviceaccount \
                 --name s3-crier \
+                --namespace default \
+                --cluster aquarium \
+                --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess \
+                --approve
+
+
+eksctl create iamserviceaccount \
+                --name s3-prow-controller-manager \
                 --namespace default \
                 --cluster aquarium \
                 --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess \

@@ -19,15 +19,11 @@ spec:
       serviceAccountName: "sinker"
       containers:
         - name: sinker
-          image: gcr.io/k8s-prow/sinker:v20200715-6a0bba187f
-          env:
-          - name: AWS_REGION
-            value: us-west-2
+          image: gcr.io/k8s-prow/sinker:v20200916-29e367bb39
           args:
             - --config-path=/etc/config/config.yaml
             - --job-config-path=/etc/job-config
             - --kubeconfig=/etc/kubeconfig/config
-            # - --run-once=true
             - --dry-run=false
           volumeMounts:
             - name: config
@@ -42,7 +38,7 @@ spec:
       volumes:
         - name: kubeconfig
           secret:
-            defaultMode: 0644
+            defaultMode: 420
             secretName: kubeconfig
         - name: config
           configMap:
@@ -51,8 +47,8 @@ spec:
           configMap:
             name: job-config
 ---
-kind: ServiceAccount
 apiVersion: v1
+kind: ServiceAccount
 metadata:
   namespace: default
   name: "sinker"
@@ -63,13 +59,6 @@ metadata:
   namespace: default
   name: "sinker"
 rules:
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs:
-      - delete
-      - list
   - apiGroups:
       - "prow.k8s.io"
     resources:
@@ -96,6 +85,23 @@ rules:
     verbs:
       - create
 ---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: test-pods
+  name: "sinker"
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - delete
+      - list
+      - watch
+      - get
+      - patch
+---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
@@ -106,5 +112,19 @@ roleRef:
   kind: Role
   name: "sinker"
 subjects:
-  - kind: ServiceAccount
-    name: "sinker"
+- kind: ServiceAccount
+  name: "sinker"
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: test-pods
+  name: "sinker"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: "sinker"
+subjects:
+- kind: ServiceAccount
+  name: "sinker"
+  namespace: default

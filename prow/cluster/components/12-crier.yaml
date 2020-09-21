@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: crier
   labels:
-    use: github
     app: crier
 spec:
   replicas: 1
@@ -13,27 +12,25 @@ spec:
   template:
     metadata:
       labels:
-        use: github
         app: crier
     spec:
       serviceAccountName: s3-crier
       terminationGracePeriodSeconds: 30
       containers:
       - name: crier
-        image: gcr.io/k8s-prow/crier:v20200715-6a0bba187f
+        image: gcr.io/k8s-prow/crier:v20200916-29e367bb39
         env:
         - name: AWS_REGION
           value: us-west-2
         args:
-        - --github-workers=1
-        - --kubernetes-blob-storage-workers=1
-        - --blob-storage-workers=1
+        - --github-workers=2
+        - --kubernetes-blob-storage-workers=2
+        - --blob-storage-workers=2
         - --kubeconfig=/etc/kubeconfig/config
         - --config-path=/etc/config/config.yaml
         - --job-config-path=/etc/job-config
         - --github-endpoint=http://ghproxy
         - --github-endpoint=https://api.github.com
-        - --blob-storage-workers=1
         - --github-token-path=/etc/github/oauth
         volumeMounts:
         - name: config
@@ -63,10 +60,10 @@ spec:
         secret:
           secretName: oauth-token
 ---
-kind: ClusterRole
+kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  # "namespace" omitted since ClusterRoles are not namespaced
+  namespace: default
   name: crier
 rules:
 - apiGroups:
@@ -79,16 +76,51 @@ rules:
     - "list"
     - "patch"
 ---
-kind: ClusterRoleBinding
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: test-pods
+  name: crier
+rules:
+- apiGroups:
+    - ""
+  resources:
+    - "pods"
+    - "events"
+  verbs:
+    - "get"
+    - "list"
+- apiGroups:
+    - ""
+  resources:
+    - "pods"
+  verbs:
+    - "patch"
+---
+kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: "crier"
-  namespace: "default"
+  name: crier
+  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: "crier"
+  kind: Role
+  name: crier
 subjects:
 - kind: ServiceAccount
-  name: "s3-crier"
-  namespace: "default"
+  name: s3-crier
+  namespace: default
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: crier
+  namespace: test-pods
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: crier
+subjects:
+- kind: ServiceAccount
+  name: s3-crier
+  namespace: default
