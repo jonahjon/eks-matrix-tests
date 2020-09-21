@@ -25,22 +25,25 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: deck
-          image: gcr.io/k8s-prow/deck:v20200715-6a0bba187f
+          image: gcr.io/k8s-prow/deck:v20200916-29e367bb39
           env:
           - name: AWS_REGION
             value: us-west-2
           args:
             - --allow-insecure
-            - --github-oauth-config-file=/etc/githuboauth/secret
-            - --hook-url=http://hook:8888/hook
+            - --rerun-creates-job
+            - --spyglass=true
+            - --tide-url=http://tide/
+            - --hook-url=http://hook:8888/plugin-help
             - --config-path=/etc/config/config.yaml
             - --job-config-path=/etc/job-config
             - --kubeconfig=/etc/kubeconfig/config
             - --plugin-config=/etc/plugins/plugins.yaml
+            - --github-oauth-config-file=/etc/githuboauth/secret
             - --github-endpoint=http://ghproxy
             - --github-endpoint=https://api.github.com
-            # - --github-token-path=/etc/github/oauth
-            - --spyglass=true
+            - --github-token-path=/etc/github/oauth
+            - --cookie-secret=/etc/cookie/secret
             - --oauth-url=/github-login
           ports:
             - name: http
@@ -52,9 +55,12 @@ spec:
             - name: job-config
               mountPath: /etc/job-config
               readOnly: true
-            # - name: oauth-token
-            #   mountPath: /etc/github
-            #   readOnly: true
+            - name: oauth
+              mountPath: /etc/github
+              readOnly: true
+            - name: oauth-config
+              mountPath: /etc/githuboauth
+              readOnly: true
             - name: plugins
               mountPath: /etc/plugins
               readOnly: true
@@ -63,9 +69,6 @@ spec:
               readOnly: true
             - name: kubeconfig
               mountPath: /etc/kubeconfig
-              readOnly: true
-            - name: oauth-config
-              mountPath: /etc/githuboauth
               readOnly: true
             - name: cookie-secret
               mountPath: /etc/cookie
@@ -86,7 +89,7 @@ spec:
       volumes:
         - name: kubeconfig
           secret:
-            defaultMode: 0644
+            defaultMode: 420
             secretName: kubeconfig
         - name: oauth-config
           secret:
@@ -100,9 +103,9 @@ spec:
         - name: job-config
           configMap:
             name: job-config
-        # - name: oauth-token
-        #   secret:
-        #       secretName: oauth-token
+        - name: oauth
+          secret:
+              secretName: oauth-token
         - name: plugins
           configMap:
             name: plugins
@@ -111,31 +114,12 @@ spec:
             defaultMode: 420
             name: branding
 ---
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  namespace: default
-  name: "deck"
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: "deck"
-subjects:
-  - kind: ServiceAccount
-    name: "s3-deck"
----
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   namespace: default
-  name: "deck"
+  name: deck
 rules:
-  - apiGroups:
-      - ""
-    resources:
-      - pods/log
-    verbs:
-      - get
   - apiGroups:
       - "prow.k8s.io"
     resources:
@@ -144,20 +128,45 @@ rules:
       - get
       - list
       - watch
+      # Required when deck runs with `--rerun-creates-job=true`
+      - create
 ---
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  annotations:
-    rbac.authorization.kubernetes.io/autoupdate: "true"
-  labels:
-    kubernetes.io/bootstrapping: rbac-defaults
-  name: prow-admin
+  namespace: test-pods
+  name: deck
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods/log
+    verbs:
+      - get
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: default
+  name: deck
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
+  kind: Role
+  name: deck
 subjects:
-  - apiGroup: rbac.authorization.k8s.io
-    kind: Group
-    name: system:serviceaccounts
+- kind: ServiceAccount
+  name: s3-deck
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: test-pods
+  name: deck
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: deck
+subjects:
+- kind: ServiceAccount
+  name: s3-deck
+  namespace: default

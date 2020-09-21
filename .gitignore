@@ -11,5 +11,6 @@
 .github/
 prow/cluster/components/branchprotector-config.yaml
 prow/cluster/components/cookie.txt
+prow/cluster/components/16-s3-secret.yaml
 images/.DS_Store
 aws-k8s-tester

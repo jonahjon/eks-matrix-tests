@@ -3,41 +3,35 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: default
-  name: plank
+  name: prow-controller-manager
   labels:
-    app: plank
+    app: prow-controller-manager
 spec:
   selector:
     matchLabels:
-      app: plank
-  replicas: 1 # Do not scale up.
+      app: prow-controller-manager
+  replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: plank
+        app: prow-controller-manager
     spec:
-      serviceAccountName: "s3-deck"
+      serviceAccountName: "s3-prow-controller-manager"
       containers:
-        - name: plank
-          image: gcr.io/k8s-prow/plank:v20200715-6a0bba187f
+        - name: prow-controller-manager
+          image: gcr.io/k8s-prow/prow-controller-manager:v20200916-29e367bb39
           env:
           - name: AWS_REGION
             value: us-west-2
           args:
             - --dry-run=false
             - --config-path=/etc/config/config.yaml
-            - --github-endpoint=http://ghproxy
-            - --github-endpoint=https://api.github.com
-            - --github-token-path=/etc/github/oauth
             - --job-config-path=/etc/job-config
+            - --enable-controller=plank
             - --kubeconfig=/etc/kubeconfig/config
-            - --skip-report=true
           volumeMounts:
-            - name: oauth
-              mountPath: /etc/github
-              readOnly: true
             - name: config
               mountPath: /etc/config
               readOnly: true
@@ -52,9 +46,6 @@ spec:
           secret:
             defaultMode: 0644
             secretName: kubeconfig
-        - name: oauth
-          secret:
-            secretName: oauth-token
         - name: config
           configMap:
             name: config
@@ -66,36 +57,75 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   namespace: default
-  name: "plank"
+  name: "prow-controller-manager"
 rules:
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs:
-      - create
-      - delete
-      - list
   - apiGroups:
       - "prow.k8s.io"
     resources:
       - prowjobs
     verbs:
       - get
-      - create
       - list
+      - watch
       - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    resourceNames:
+      - prow-controller-manager-leader-lock
+    verbs:
+      - get
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - events
+    verbs:
+      - create
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: test-pods
+  name: prow-controller-manager
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - delete
+      - list
+      - watch
+      - create
       - patch
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   namespace: default
-  name: "plank"
+  name: prow-controller-manager
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: "plank"
+  name: prow-controller-manager
 subjects:
-  - kind: ServiceAccount
-    name: "s3-deck"
+- kind: ServiceAccount
+  name: s3-prow-controller-manager
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: test-pods
+  name: prow-controller-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: prow-controller-manager
+subjects:
+- kind: ServiceAccount
+  name: prow-controller-manager
+  namespace: default
