@@ -2,7 +2,7 @@
 
 ## Overview
 
-This folder contains a Docker image used to launch and test Grafana via helm and kubectl commands.
+This folder contains a Docker image used to launch and test Grafana via helm and kubectl commands..
 
 ## Installation
 
