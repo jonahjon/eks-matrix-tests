@@ -12,7 +12,7 @@ To build the Docker image, run this command:
 docker build -t aquarium/fluent-bit .
 ```
 
-### Image Build Status #
+### Image Build Status # #
 
 | Image | Status |
 | ----------- | -----------
