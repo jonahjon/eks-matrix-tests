@@ -146,6 +146,11 @@ basic badge sytnax for deck jobs is:
 
 # Test Results
 
+### Falco
+
+| Install Method | v1.16 | v1.15 | v1.14 | 
+| ----------- | ----------- | ----------- | -----------
+| **Helm** | [![](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//badge.svg?jobs=falco-helm-1-1.16)](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//badge.svg?jobs=falco-helm-1-1.16) | [![](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//badge.svg?jobs=falco-helm-1-1.15)](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//badge.svg?jobs=falco-helm-1-1.15) | [![](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//badge.svg?jobs=falco-helm-1-1.14)](http://a56c283cf9f12475c8a96a18a07a13ea-1771389391.us-west-2.elb.amazonaws.com//badge.svg?jobs=falco-helm-1-1.14)
 
 ### Grafana
 
