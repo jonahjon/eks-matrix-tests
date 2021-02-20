@@ -10,6 +10,8 @@ aws ecr create-repository --repository-name prow/update-jobs || true
 aws ecr create-repository --repository-name grafana/alpine-kubectl || true
 aws ecr create-repository --repository-name aquarium/prometheus || true
 aws ecr create-repository --repository-name aquarium/fluent-bit || true
+aws ecr create-repository --repository-name aquarium/falco|| true
+
 
 
 
